@@ -1,12 +1,20 @@
-@import '../../styles/helpers/variables';
+@import "../../styles/helpers/variables";
 
 .card {
   background-color: $background-card;
   padding: 20px 15px;
-  border-radius: 15px;
+  border-radius: 10px;
   color: $white;
-  img {
-    width: 100%;
+  width: min-content;
+  .container_img {
+    width: 110px;
+    height: 110px;
+    align-items: center;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .name {

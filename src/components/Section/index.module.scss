@@ -1,0 +1,31 @@
+.container_section {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  .section_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .container_card {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .show_button {
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: rgb(18, 18, 18); /* Couleur de fond du bouton */
+    color: #ffffff; /* Couleur du texte */
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease; /* Transition de couleur de fond */
+
+    &:hover {
+      background-color: rgb(29, 29, 29); /* Couleur de fond au survol */
+    }
+  }
+}

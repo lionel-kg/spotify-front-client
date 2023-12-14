@@ -1,25 +1,28 @@
-import React from "react";
-import styles from "./index.module.scss";
-import { useRouter } from 'next/router';
+import React, {useEffect} from 'react';
+import styles from './index.module.scss';
+import {useRouter} from 'next/router';
 
-const Index = (props) => {
+const Index = props => {
+  const {song} = props;
+  const router = useRouter();
+  const handleCard = e => {
+    e.preventDefault();
+    router.push(props.href);
+  };
 
+  useEffect(() => {
+    console.log(song);
+  }, [song]);
 
-    const router = useRouter();
-
-    const handleCard = (e) => {
-        e.preventDefault();
-        router.push(props.href);
-    };
-
-
-    return (
-        <div className={styles.card} onClick={(e) => handleCard(e)}>
-            <img src={props.img} alt={props.name} />
-            <p className={styles.name}>{props.name}</p>
-            <p>{props.subtitle}</p>
-        </div>
-    );
-}
+  return (
+    <div className={styles.card} onClick={e => handleCard(e)}>
+      <div className={styles.container_img}>
+        <img src={song.album.thumbnail} alt={song.album.title} />
+      </div>
+      <p className={styles.name}>{song.title}</p>
+      <p>{song.artist.name}</p>
+    </div>
+  );
+};
 
 export default Index;
