@@ -1,12 +1,11 @@
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
-const Index = (props) => {
+const Index = props => {
+  return (
+    <button className={styles.btn} onClick={props.onClick} type={props.type}>
+      {props.children}
+    </button>
+  );
+};
 
-    return (  
-        <button className={styles.btn} onClick={props.onClick} type={props.type}>
-            {props.title}
-        </button>
-    );
-}
- 
 export default Index;

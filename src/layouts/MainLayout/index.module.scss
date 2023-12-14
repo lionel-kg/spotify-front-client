@@ -1,0 +1,21 @@
+.main___layout {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 30% 69%;
+  height: 90vh;
+  gap: 10px;
+
+  .left__layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .droite {
+    width: 100%;
+    background-color: red;
+    border-radius: 10px;
+  }
+}

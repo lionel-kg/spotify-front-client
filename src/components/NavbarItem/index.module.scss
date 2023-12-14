@@ -1,17 +1,17 @@
 @import '../../styles/helpers/variables';
 
-.navbar_item{
-    margin: 15px 0;
-    color: $light-gray;
-    transition: .15s ease-in-out;
-    display: flex;
-    padding: 10px 0;
-    gap: 15px;
-    align-items: center;
-    font-size: 20px;
-    text-decoration: inherit;
-    &:hover{
-        cursor: pointer;
-        color: white;
-    }
+.navbar_item {
+  margin: 10px 0;
+  color: $light-gray;
+  transition: 0.15s ease-in-out;
+  display: flex;
+  padding: 10px 0;
+  gap: 15px;
+  align-items: center;
+  font-size: 20px;
+  text-decoration: inherit;
+  &:hover {
+    cursor: pointer;
+    color: white;
+  }
 }
