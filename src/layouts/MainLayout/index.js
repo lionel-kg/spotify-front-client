@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/NavBar';
 import Library from '../../components/Library';
 
 const Index = ({children}) => {

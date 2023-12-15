@@ -2,7 +2,7 @@ import {formatTime} from '@/helpers/tool.helper';
 import shuffle from 'just-shuffle';
 import {useEffect, useRef, useState} from 'react';
 import styles from './index.module.scss';
-import {FaBackward, FaForward, FaPause, FaPlay} from 'react-icons/fa';
+import {FaBackward, FaForward, FaPauseCircle, FaPlayCircle} from 'react-icons/fa';
 import {FaBackwardStep, FaForwardStep, FaShuffle} from 'react-icons/fa6';
 
 const CustomAudioPlayer = () => {
@@ -15,6 +15,8 @@ const CustomAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isShuffleActive, setIsShuffleActive] = useState(false);
 
   useEffect(() => {
     const updateTimer = setInterval(() => {
@@ -33,7 +35,16 @@ const CustomAudioPlayer = () => {
     const randomizedArray = shuffle(array);
     setPlayList(randomizedArray);
     setIndexPlayList(0);
+    setIsShuffleActive(!isShuffleActive);
   };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  }
 
   return (
     <div className={styles.container_player}>
@@ -45,8 +56,8 @@ const CustomAudioPlayer = () => {
           />
         </div>
         <div className={styles.info}>
-          <p>500lbs</p>
-          <p>Lil tecca</p>
+          <p className={styles.song__title}>500lbs</p>
+          <p className={styles.song__artist}>Lil tecca</p>
         </div>
       </div>
       <div className={styles.player}>
@@ -63,7 +74,11 @@ const CustomAudioPlayer = () => {
           src={playList[indexPlayList]}
         />
         <div className={styles.options}>
-          <button onClick={() => randomize(playList)}>
+          <button onClick={() => randomize(playList)}
+            style={{
+              color: isShuffleActive? '#1db954' : 'white',
+            }}
+          >
             <FaShuffle />
           </button>
           <button
@@ -82,7 +97,7 @@ const CustomAudioPlayer = () => {
                 audioRef.current.pause();
                 setIsPlaying(false);
               }}>
-              <FaPause />
+              <FaPauseCircle  size={30}/>
             </button>
           ) : (
             <button
@@ -91,7 +106,7 @@ const CustomAudioPlayer = () => {
                 audioRef.current.play();
                 setIsPlaying(true);
               }}>
-              <FaPlay />
+              <FaPlayCircle size={30}/>
             </button>
           )}
 
@@ -108,7 +123,12 @@ const CustomAudioPlayer = () => {
         </div>
         <div className={styles.bar}>
           <div>
-            <p>{formatTime(currentTime)}</p>
+            <p 
+              style={{
+                fontSize: 11,
+              }}>
+              {formatTime(currentTime)}
+            </p>
           </div>
           <div
             onClick={e => {
@@ -118,23 +138,32 @@ const CustomAudioPlayer = () => {
               // définir la position de l'audio sur x
             }}
             style={{
-              height: 5,
+              height: "3",
               width: 300,
-              background: '#00000042',
+              background: 'grey',
               borderRadius: 5,
               margin: '10px 0',
             }}>
-            <div
+            <div 
               style={{
-                height: 5,
+                height: 3,
                 width: (currentTime * 300) / duration,
                 background: 'white',
                 borderRadius: 5,
-              }}></div>
+                background: isHovered ? '#1db954' : 'white',
+              }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+            </div>
           </div>
-          <div>
-            <p>{formatTime(duration)}</p>
-          </div>
+          <p 
+            style={{
+              fontSize: 11,
+              padding: '0px 0px 0px 5px',
+            }}>
+            {formatTime(duration)}
+          </p>
         </div>
       </div>
       <div></div>
