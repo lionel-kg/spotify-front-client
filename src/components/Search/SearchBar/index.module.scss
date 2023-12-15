@@ -1,0 +1,29 @@
+.search_container {
+  background-color: #242424;
+  width: 300px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border: 1px solid white;
+  padding: 10px 10px;
+  border-radius: 30px;
+  border: 1px solid transparent;
+
+  &:focus-within {
+    border-color: white; // This sets the border color when the input is focused
+  }
+
+  input {
+    width: 100%;
+    background-color: #242424;
+    border: none;
+    color: white;
+    font-size: 14px;
+    outline: none; // Removes the default focus outline
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+}

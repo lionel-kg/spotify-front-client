@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 import Card from '../Card/index';
 import PageTitle from '../PageTitle/index';
 
-const Index = props => {
-  const {title, songs} = props;
+const Index = ({ title, cards, CardComponent }) => {
   const [showAll, setShowAll] = useState(false);
   const [showLess, setShowLess] = useState(false);
-  const displayedSongs = showAll ? songs : songs.slice(0, 4);
+  const displayedSongs = showAll ? cards : cards.slice(0, 4);
 
   const handleShowAllClick = () => {
     setShowAll(true);
@@ -18,10 +17,6 @@ const Index = props => {
     setShowAll(false);
     setShowLess(false);
   };
-
-  useEffect(() => {
-    console.log(songs);
-  }, [songs]);
 
   return (
     <div className={styles.container_section}>
@@ -39,9 +34,9 @@ const Index = props => {
         )}
       </div>
       <div className={styles.container_card}>
-        {displayedSongs.map(song => {
-          return <Card key={song.id} song={song} />;
-        })}
+        {cards.map((card, index) => (
+          <Card key={index} {...card} />
+        ))}
       </div>
     </div>
   );

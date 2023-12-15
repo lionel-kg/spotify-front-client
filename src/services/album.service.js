@@ -43,3 +43,12 @@ export const deleteAlbum = async id => {
     throw error;
   }
 }
+
+export const searchAlbums = async query => {
+  try {
+    const response = await axios.get(`/album/search?q=${query}`)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
