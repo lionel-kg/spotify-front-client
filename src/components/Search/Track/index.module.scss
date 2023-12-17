@@ -1,0 +1,31 @@
+.track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 5px;
+
+  .image_container {
+    position: relative;
+
+    .play_icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: transparent;
+    }
+  }
+
+  &_info {
+    .artist {
+      font-size: 12px;
+      margin-top: 3px;
+      color: #a7a7a7;
+    }
+  }
+
+  &.hovered {
+    background-color: #2a2a2a;
+  }
+}

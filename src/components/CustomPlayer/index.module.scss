@@ -1,3 +1,5 @@
+@import '../../styles/helpers/variables';
+
 .container_player {
   position: fixed;
   bottom: 0;
@@ -6,14 +8,15 @@
   flex-direction: row;
   justify-content: space-between;
   background-color: black;
-  color: white;
+  color: $white;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 0;
 
   .container_content_song {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    width: 30%;
+    padding-left: 20px;
 
     .container_img {
       width: 55px;
@@ -48,6 +51,7 @@
   .player {
     display: flex;
     flex-direction: column;
+    width: 40%;
 
     .options {
       display: flex;
@@ -58,15 +62,33 @@
         background-color: black;
         padding: 10px;
       }
+
+      .repeat::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 5px;
+        height: 5px;
+        background-color: $primary-color;
+        border-radius: 50%;
+        display: block;
+      }
+
+      .repeat {
+        position: relative;
+        display: inline-block;
+      }
     }
 
     .bar {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: center;
 
       div {
-        padding: 1px;
+        width: 60%;
 
         p {
           margin: auto;
@@ -81,56 +103,11 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  width: 30%;
+  justify-content: flex-end;
+  padding-right: 20px;
 
   button {
     background: initial;
-  }
-
-  .volume_slider {
-    padding: 10px 0;
-
-    input {
-      margin-bottom: 5px;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: 4px;
-      background: #00000042;
-      outline: none;
-
-      &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #fff;
-        cursor: pointer;
-        margin-top: -1px;
-        opacity: 0;
-      }
-
-      &::-moz-range-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #fff;
-        cursor: pointer;
-        opacity: 0;
-      }
-    }
-
-    &:hover {
-      input::-moz-range-thumb {
-        opacity: 1;
-      }
-
-      input::-webkit-slider-thumb {
-        opacity: 1;
-      }
-    }
   }
 }

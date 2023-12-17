@@ -5,22 +5,21 @@ import styles from './index.module.scss';
 import { FaBackward, FaForward, FaPauseCircle, FaPlayCircle } from 'react-icons/fa';
 import { FaBackwardStep, FaForwardStep, FaShuffle } from 'react-icons/fa6';
 import { IoVolumeMuteOutline, IoVolumeMediumOutline } from "react-icons/io5";
+import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 import { usePlayer } from '@/context/PlayerContext';
 import InputRange from '@/components/InputRange';
 
 const CustomAudioPlayer = () => {
   const audioRef = useRef(null);
-  const [indexPlaylist, setIndexPlaylist] = useState(0);
-  const { playlist, updatePlaylist } = usePlayer();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { playlist, updatePlaylist, isPlaying, setIsPlaying, indexPlaylist, setIndexPlaylist } = usePlayer();
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [isShuffleActive, setIsShuffleActive] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [prevVolume, setPrevVolume] = useState(volume);
   const [isMuted, setIsMuted] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
+  const [repeatMode, setRepeatMode] = useState(0);
+
   useEffect(() => {
     const updateTimer = setInterval(() => {
       if (!audioRef.current) {
@@ -50,30 +49,6 @@ const CustomAudioPlayer = () => {
     setIsShuffleActive(!isShuffleActive);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  }
-
-
-  const getSliderBackground = () => {
-    const percentage = (volume * 100).toFixed(0);
-    const colorFilled = isHovering ? '#1db954' : '#ffffff';
-    const colorUnfilled = '#00000042';
-    return `linear-gradient(to right, ${colorFilled} 0%, ${colorFilled} ${percentage}%, ${colorUnfilled} ${percentage}%, ${colorUnfilled} 100%)`;
-  };
-
-  const sliderStyles = {
-    background: getSliderBackground(),
-    width: '100%',
-    height: '5px',
-    borderRadius: '4px',
-    outline: 'none'
-  };
-
   const handleMute = () => {
     setIsMuted(!isMuted);
     if (!isMuted) {
@@ -86,8 +61,33 @@ const CustomAudioPlayer = () => {
     }
   };
 
-  // This useEffect will update the 'muted' property of the audio element
-  // whenever 'isMuted' state changes.
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    console.log(indexPlaylist);
+    const handleSongEnd = () => {
+      if (repeatMode === 2) {
+        audioElement.play();
+      } else if (repeatMode === 1 && indexPlaylist === playlist.length - 1) {
+        setIndexPlaylist(0);
+      } else if (repeatMode === 0 && indexPlaylist === playlist.length - 1) {
+        setIsPlaying(false);
+      } else if (indexPlaylist < playlist.length - 1) {
+        setIndexPlaylist((prevIndex) => prevIndex + 1);
+      }
+    };
+
+    if (audioElement) {
+      audioElement.addEventListener('ended', handleSongEnd);
+    }
+
+    return () => {
+      if (audioElement) {
+        audioElement.removeEventListener('ended', handleSongEnd);
+      }
+    };
+  }, [repeatMode, indexPlaylist, playlist.length]);
+
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.muted = isMuted;
@@ -104,13 +104,13 @@ const CustomAudioPlayer = () => {
           <div className={styles.container_content_song}>
             <div className={styles.container_img}>
               <img
-                src="https://i.scdn.co/image/ab67616d00004851c4e6adea"
-                alt="lil"
+                src={playlist[indexPlaylist]?.thumbnail}
+                alt="thumbnail"
               />
             </div>
             <div className={styles.info}>
-              <p className={styles.song__title}>{playlist[indexPlaylist].title}</p>
-              <p className={styles.song__artist}></p>
+              <p className={styles.song__title}>{playlist[indexPlaylist]?.title}</p>
+              <p className={styles.song__artist}>{playlist[indexPlaylist]?.artist}</p>
             </div>
           </div>
           <div className={styles.player}>
@@ -124,7 +124,7 @@ const CustomAudioPlayer = () => {
                 }
               }}
               ref={audioRef}
-              src={playlist[indexPlaylist].url}
+              src={playlist[indexPlaylist]?.url}
             />
             <div className={styles.options}>
               <button onClick={() => randomize(playlist)}
@@ -136,10 +136,8 @@ const CustomAudioPlayer = () => {
               </button>
               <button
                 onClick={() => {
-                  if (indexPlaylist < 0) {
+                  if (indexPlaylist > 0) {
                     setIndexPlaylist(indexPlaylist - 1);
-                  } else {
-                    setIndexPlaylist(playlist.length - 1);
                   }
                 }}>
                 <FaBackwardStep />
@@ -173,43 +171,33 @@ const CustomAudioPlayer = () => {
                 }}>
                 <FaForwardStep />
               </button>
+
+              <button
+                onClick={() => setRepeatMode((prevMode) => (prevMode + 1) % 3)}
+                className={`${repeatMode !== 0 ? styles.repeat : ''}`}
+              >
+                {repeatMode === 0 && <TbRepeat size={20} />}
+                {repeatMode === 1 && <TbRepeat size={20} color='#1db954' />}
+                {repeatMode === 2 && <TbRepeatOnce size={20} color='#1db954' />}
+              </button>
             </div>
             <div className={styles.bar}>
-              <div>
-                <p
-                  style={{
-                    fontSize: 11,
-                  }}>
-                  {formatTime(currentTime)}
-                </p>
-              </div>
-              <div
-                onClick={e => {
-                  const rect = e.target.getBoundingClientRect();
-                  const x = e.clientX - rect.left; // Position x dans l'élément.
-                  audioRef.current.currentTime = (x * duration) / 300;
-                  // définir la position de l'audio sur x
-                }}
+              <p
                 style={{
-                  height: "3",
-                  width: 300,
-                  background: 'grey',
-                  borderRadius: 5,
-                  margin: '10px 0',
+                  fontSize: 11,
                 }}>
-                <div
-                  style={{
-                    height: 3,
-                    width: (currentTime * 300) / duration,
-                    background: 'white',
-                    borderRadius: 5,
-                    background: isHovered ? '#1db954' : 'white',
-                  }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                </div>
-              </div>
+                {formatTime(currentTime)}
+              </p>
+              <InputRange
+                value={currentTime}
+                onChange={e => {
+                  const newCurrentTime = e.target.value;
+                  audioRef.current.currentTime = parseFloat(newCurrentTime);
+                }}
+                min={0}
+                max={duration}
+                step={1}
+              />
               <p
                 style={{
                   fontSize: 11,
@@ -226,25 +214,18 @@ const CustomAudioPlayer = () => {
             >
               {isMuted ? <IoVolumeMuteOutline size={20} /> : <IoVolumeMediumOutline size={20} />}
             </button>
-            <div
-              className={styles.volume_slider}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}>
-              <InputRange
-                value={volume}
-                onChange={e => setVolume(e.target.value)}
-                sliderBackground={getSliderBackground(volume, 1, '#1db954')}
-                min={0}
-                max={1}
-                step={0.01}
-              />
-            </div>
+            <InputRange
+              value={volume}
+              onChange={e => setVolume(e.target.value)}
+              min={0}
+              max={1}
+              step={0.01}
+            />
           </div>
-        </div>
+        </div >
       )}
     </>
   );
 };
-
 
 export default CustomAudioPlayer;

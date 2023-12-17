@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss'; // You would need to create this CSS module
 
-const Index = ({ value, onChange, sliderBackground, min, max, step }) => {
+const Index = ({ value, onChange, min, max, step }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const getSliderBackground = () => {
+    const percentage = (value / max) * 100;
+    const colorFilled = isHovered ? '#1db954' : '#ffffff';
+    const colorUnfilled = '#4d4d4d';
+    return `linear-gradient(to right, ${colorFilled} 0%, ${colorFilled} ${percentage}%, ${colorUnfilled} ${percentage}%, ${colorUnfilled} 100%)`;
+  };
+
   const sliderStyles = {
-    background: sliderBackground,
-    width: '100%',
-    height: '5px',
-    borderRadius: '4px',
-    outline: 'none'
+    background: getSliderBackground(),
   };
 
   return (
-    <div className={styles.sliderContainer}>
+    <div
+      className={styles.slider}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <input
         type="range"
         min={min}
