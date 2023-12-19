@@ -1,4 +1,4 @@
-@import '../../styles/helpers/variables';
+@import "../../styles/helpers/variables";
 
 .container_player {
   position: fixed;
@@ -64,7 +64,7 @@
       }
 
       .repeat::after {
-        content: '';
+        content: "";
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -109,5 +109,53 @@
 
   button {
     background: initial;
+  }
+
+  .volume_slider {
+    padding: 10px 0;
+
+    input {
+      margin-bottom: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #00000042;
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        margin-top: -1px;
+        opacity: 0;
+      }
+
+      &::-moz-range-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        opacity: 0;
+      }
+    }
+
+    &:hover {
+      input::-moz-range-thumb {
+        opacity: 1;
+      }
+
+      input::-webkit-slider-thumb {
+        opacity: 1;
+      }
+    }
   }
 }

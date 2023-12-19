@@ -21,7 +21,9 @@ instance.interceptors.request.use(
 // Intercept incoming responses
 instance.interceptors.response.use(
   response => {
-    toast.success('Request successful!');
+    if (response.config.method !== 'get') {
+      toast.success('Request successful!');
+    }
     return response;
   },
   error => {
