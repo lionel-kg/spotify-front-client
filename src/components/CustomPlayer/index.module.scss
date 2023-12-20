@@ -61,13 +61,14 @@
       button {
         background-color: black;
         padding: 10px;
+        position: relative;
       }
 
-      .repeat::after {
+      .shuffle::after {
         content: "";
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 70%;
+        transform: translateX(95%);
         width: 5px;
         height: 5px;
         background-color: $primary-color;
@@ -75,9 +76,16 @@
         display: block;
       }
 
-      .repeat {
-        position: relative;
-        display: inline-block;
+      .repeat::after {
+        content: "";
+        position: absolute;
+        top: 70%;
+        transform: translateX(155%);
+        width: 5px;
+        height: 5px;
+        background-color: $primary-color;
+        border-radius: 50%;
+        display: block;
       }
     }
 

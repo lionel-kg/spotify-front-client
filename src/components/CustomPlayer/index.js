@@ -277,8 +277,12 @@ const CustomAudioPlayer = ({selectedRoom}) => {
               }
             />
             <div className={styles.options}>
-              <button
-                onClick={() => randomize(sharePlaylist ?? playlist)}
+            <button
+                className={`${isShuffleActive ? styles.shuffle : ''}`}
+                onClick={() => {
+                  randomize(playlist);
+                  setIsShuffleActive(!isShuffleActive);
+                }}
                 style={{
                   color: isShuffleActive ? '#1db954' : 'white',
                 }}>
