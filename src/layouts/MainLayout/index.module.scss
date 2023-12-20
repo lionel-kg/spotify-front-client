@@ -1,4 +1,4 @@
-@import '@/styles/helpers/variables';
+@import "@/styles/helpers/variables";
 
 .main__layout {
   margin: 10px;
@@ -28,9 +28,8 @@
     color: white;
     background: linear-gradient(to bottom, #505050, #000000 90%);
     overflow-y: auto;
-
     scrollbar-color: rgb(90, 90, 90);
-
+    margin-bottom: 10%;
     &::-webkit-scrollbar {
       width: 13px;
     }

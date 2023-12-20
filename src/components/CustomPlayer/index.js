@@ -20,12 +20,15 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     playlist,
     updatePlaylist,
     isPlaying,
+    handlePause,
+    handleResume,
     setIsPlaying,
     indexPlaylist,
     setIndexPlaylist,
     audioRef,
   } = usePlayer();
   const [sharePlaylist, setSharePlaylist] = useState([]);
+  const [playlistLength, setPlaylistLength] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isShuffleActive, setIsShuffleActive] = useState(false);
@@ -82,26 +85,27 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     }
   }, [volume]);
 
-  // useEffect(() => {
-  //   if (playlist.length > 0) {
-  //     socketService.on('playbackStarted', data => {
-  //       console.log(playlist);
-  //       console.log(data);
-  //       setSharePlaylist(data.playlist);
-  //       if (audioRef.current) {
-  //         // Mettre à jour la playlist directement au démarrage
-  //         updatePlaylist(data.playlist);
-  //         setIndexPlaylist(0);
-  //         audioRef.current.play();
-  //         setIsPlaying(true);
-  //       }
-  //     });
+  useEffect(() => {
+    if (playlist.length > 0) {
+      console.log(playlist);
+      socketService.on('playbackStarted', data => {
+        console.log(data);
+        setSharePlaylist(data.playlist);
+        setIndexPlaylist(data.index ?? 0);
+        setPlaylistLength(data.playlist.length);
+        if (audioRef.current) {
+          // Mettre à jour la playlist directement au démarrage
+          updatePlaylist(data.playlist);
+          audioRef.current.play();
+          setIsPlaying(true);
+        }
+      });
 
-  //     return () => {
-  //       socketService.off('playbackStarted');
-  //     };
-  //   }
-  // }, [playlist]);
+      return () => {
+        socketService.off('playbackStarted');
+      };
+    }
+  }, [playlist]);
 
   const randomize = array => {
     const randomizedArray = array.slice();
@@ -114,6 +118,9 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     }
     setIndexPlaylist(0);
     updatePlaylist(randomizedArray);
+    setSharePlaylist(randomizedArray);
+    setPlaylistLength(randomizedArray.length);
+    console.log('Playlist', randomizedArray);
     setIsShuffleActive(!isShuffleActive);
   };
 
@@ -150,6 +157,15 @@ const CustomAudioPlayer = ({selectedRoom}) => {
         isPlaying ? audioRef.current.play() : audioRef.current.pause();
       }
     });
+
+    // // Update indexPlaylist based on the playback state
+    // if (newIsPlaying && indexPlaylist === playlistLength - 1) {
+    //   // If the current song is the last in the playlist and play is pressed, start from the beginning
+    //   setIndexPlaylist(0);
+    // } else if (!newIsPlaying && indexPlaylist === 0) {
+    //   // If the current song is the first in the playlist and pause is pressed, go to the end
+    //   setIndexPlaylist(playlistLength - 1);
+    // }
   };
 
   const handlePosition = newCurrentTime => {
@@ -177,15 +193,22 @@ const CustomAudioPlayer = ({selectedRoom}) => {
   };
 
   useEffect(() => {
+    console.log(sharePlaylist[indexPlaylist]);
+    console.log(indexPlaylist);
+    console.log(sharePlaylist[indexPlaylist]);
+    console.log(playlist[indexPlaylist]);
+  }, [sharePlaylist, indexPlaylist]);
+
+  useEffect(() => {
     const audioElement = audioRef.current;
     const handleSongEnd = () => {
       if (repeatMode === 2) {
         audioElement.play();
-      } else if (repeatMode === 1 && indexPlaylist === playlist.length - 1) {
+      } else if (repeatMode === 1 && indexPlaylist === playlistLength - 1) {
         setIndexPlaylist(0);
-      } else if (repeatMode === 0 && indexPlaylist === playlist.length - 1) {
+      } else if (repeatMode === 0 && indexPlaylist === playlistLength - 1) {
         setIsPlaying(false);
-      } else if (indexPlaylist < playlist.length - 1) {
+      } else if (indexPlaylist < playlistLength - 1) {
         setIndexPlaylist(prevIndex => prevIndex + 1);
       }
     };
@@ -199,7 +222,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
         audioElement.removeEventListener('ended', handleSongEnd);
       }
     };
-  }, [repeatMode, indexPlaylist, playlist.length]);
+  }, [repeatMode, indexPlaylist, playlistLength]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -216,7 +239,14 @@ const CustomAudioPlayer = ({selectedRoom}) => {
         <div className={styles.container_player}>
           <div className={styles.container_content_song}>
             <div className={styles.container_img}>
-              <img src={playlist[indexPlaylist]?.thumbnail} alt="thumbnail" />
+              <img
+                src={
+                  sharePlaylist
+                    ? sharePlaylist[indexPlaylist]?.thumbnail
+                    : playlist[indexPlaylist]?.thumbnail
+                }
+                alt="thumbnail"
+              />
             </div>
             <div className={styles.info}>
               <p className={styles.song__title}>
@@ -248,7 +278,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
             />
             <div className={styles.options}>
               <button
-                onClick={() => randomize(playlist)}
+                onClick={() => randomize(sharePlaylist ?? playlist)}
                 style={{
                   color: isShuffleActive ? '#1db954' : 'white',
                 }}>
@@ -265,7 +295,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
 
               <button
                 onClick={() => {
-                  handleSong();
+                  isPlaying ? handlePause() : handleResume();
                 }}>
                 {isPlaying ? (
                   <FaPauseCircle size={30} />
@@ -276,7 +306,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
 
               <button
                 onClick={() => {
-                  if (indexPlaylist < playlist.length - 1) {
+                  if (indexPlaylist < playlistLength - 1) {
                     setIndexPlaylist(indexPlaylist + 1);
                   } else {
                     setIndexPlaylist(0);

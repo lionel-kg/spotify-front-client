@@ -24,22 +24,23 @@ export const AudioPlayerProvider = ({children}) => {
   const audioRef = useRef(null);
 
   const updatePlaylist = newPlaylist => {
-    console.log(newPlaylist);
     setPlaylist(newPlaylist);
   };
 
   const handlePlay = (audios, url, thumbnail, title, artist, id) => {
+    console.log(audios);
     if (Array.isArray(audios) && audios.length) {
       const playlistUpdated = audios.map(audio => ({
         ...audio,
         thumbnail: thumbnail,
         artist: artist.name,
       }));
+      console.log(playlistUpdated);
       setPlaylist(playlistUpdated);
       socketService.emit('startPlayback', {
         currentTime: 0,
         isPlaying: true,
-        playlist: [playlistUpdated],
+        playlist: playlistUpdated,
       });
     } else if (url) {
       const singleSong = {
@@ -92,12 +93,18 @@ export const AudioPlayerProvider = ({children}) => {
       playedAt: Date.now(),
     };
     setPlaylist([singleSong]);
+    socketService.emit('startPlayback', {
+      currentTime: 0,
+      isPlaying: true,
+      playlist: [singleSong],
+    });
     setIsPlaying(true);
     await addToHistory(singleSong);
     const savedHistory = await readHistory();
   };
 
   const handlePlaylist = (audios, thumbnail, artist, index) => {
+    console.log(thumbnail);
     setPlaylist[[]];
     index ? setIndexPlaylist(index) : setIndexPlaylist(0);
     const playlistUpdated = audios.map(audio => ({
@@ -109,19 +116,47 @@ export const AudioPlayerProvider = ({children}) => {
       playedAt: Date.now(),
     }));
     setPlaylist(playlistUpdated);
+    socketService.emit('startPlayback', {
+      currentTime: 0,
+      isPlaying: true,
+      index: index,
+      playlist: playlistUpdated,
+    });
     addPlaylistToHistory(audios);
     setIsPlaying(true);
   };
 
-  const handlePause = e => {
-    audioRef.current.pause();
-    setIsPlaying(false);
+  const handlePause = () => {
+    // Émettre l'état actuel de la lecture
+    socketService.emit('isCurrentlyPlaying', {
+      isPlaying: false,
+    });
   };
 
-  const handleResume = e => {
-    audioRef.current.play();
-    setIsPlaying(true);
+  const handleResume = () => {
+    // Émettre l'état actuel de la lecture
+    socketService.emit('isCurrentlyPlaying', {
+      isPlaying: true,
+    });
   };
+
+  useEffect(() => {
+    socketService.connect();
+  }, []);
+  // Vous pouvez éventuellement écouter l'événement isPlaying une seule fois lors de la mise en place du composant
+  useEffect(() => {
+    const handleIsPlaying = ({isPlaying}) => {
+      setIsPlaying(isPlaying);
+      if (audioRef.current) {
+        isPlaying ? audioRef.current.play() : audioRef.current.pause();
+      }
+    };
+    socketService.on('isPlaying', handleIsPlaying);
+
+    return () => {
+      socketService.off('isPlaying', handleIsPlaying);
+    };
+  }, []);
 
   const isPlaylistPlaying = audios => {
     return audios?.some(audio => audio.id === playlist[indexPlaylist]?.id);

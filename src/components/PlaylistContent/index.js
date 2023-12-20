@@ -15,6 +15,9 @@ const PlaylistContent = ({playlistId}) => {
     removePlaylist(playlistId);
   };
 
+  useEffect(() => {
+    console.log(playlists[playlistId]);
+  }, [playlistId]);
   return (
     <div className={styles.albumContent}>
       <PlaylistHeader playlist={playlist} />

@@ -1,15 +1,31 @@
 import React, {useEffect} from 'react';
-import {FaPlay, FaPause, FaHeart, FaRegHeart, FaEllipsisH} from 'react-icons/fa';
+import {
+  FaPlay,
+  FaPause,
+  FaHeart,
+  FaRegHeart,
+  FaEllipsisH,
+} from 'react-icons/fa';
 import styles from './index.module.scss'; // Assurez-vous que le chemin vers le fichier SCSS est correct
 import AlbumHeader from './AlbumHeader';
 import AudioListing from '../AudioListing';
 import {usePlaylists} from '@/context/PlaylistContext';
 import {usePlayer} from '@/context/PlayerContext';
 
-const AlbumContent = ({ album }) => {
-
-  const { albums, addAlbum, removeAlbum, albumExists } = usePlaylists();
-  const { playlist, handlePlaylist, handlePause, handleResume, isPlaying, setIsPlaying, audioRef, indexPlaylist, isPlaylistPlaying, isSongPlaying } = usePlayer();
+const AlbumContent = ({album}) => {
+  const {albums, addAlbum, removeAlbum, albumExists} = usePlaylists();
+  const {
+    playlist,
+    handlePlaylist,
+    handlePause,
+    handleResume,
+    isPlaying,
+    setIsPlaying,
+    audioRef,
+    indexPlaylist,
+    isPlaylistPlaying,
+    isSongPlaying,
+  } = usePlayer();
   const isAlbumLiked = albumExists(album.id);
 
   const toggleAlbumLike = () => {
@@ -20,14 +36,16 @@ const AlbumContent = ({ album }) => {
     }
   };
 
-  const isCurrentSongPlaying = isPlaying && (isPlaylistPlaying(album.audios));
+  const isCurrentSongPlaying = isPlaying && isPlaylistPlaying(album.audios);
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.preventDefault();
     if (isPlaylistPlaying(album.audios)) {
       isPlaying ? handlePause(e) : handleResume(e);
     } else {
-      audios ? handlePlaylist(audios, displayThumbnail, diplayArtist) : handleSong(url, displayThumbnail, displayTitle, diplayArtist, id);
+      album.audios
+        ? handlePlaylist(album.audios, album.thumbnail, album.artist)
+        : handleSong(url, displayThumbnail, displayTitle, diplayArtist, id);
     }
   };
 
@@ -36,7 +54,11 @@ const AlbumContent = ({ album }) => {
       <AlbumHeader album={album} />
       <div className={styles.controlsHeader}>
         <button className={styles.button_play} onClick={handleClick}>
-          {isCurrentSongPlaying ? <FaPause className={styles.iconPlay} color='white' /> : <FaPlay color='white' className={styles.iconPlay} />}
+          {isCurrentSongPlaying ? (
+            <FaPause className={styles.iconPlay} color="white" />
+          ) : (
+            <FaPlay color="white" className={styles.iconPlay} />
+          )}
         </button>
         {isAlbumLiked ? (
           <FaHeart

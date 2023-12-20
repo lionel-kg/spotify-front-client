@@ -34,8 +34,6 @@ export default function Home() {
   }, [loadingRoom]);
 
   useEffect(() => {
-    socketService.connect();
-
     audioService.getAudios().then(res => {
       setAudios(res);
       setLoading(false);
