@@ -6,6 +6,9 @@ export const getRooms = async () => {
   return response.data;
 };
 
+// const url = 'http://localhost:4001';
+const url = 'https://api.spotify.ismadev.net/';
+
 class SocketService {
   constructor() {
     this.socket = null;
