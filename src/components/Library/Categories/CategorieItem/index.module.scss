@@ -1,0 +1,19 @@
+@import '@/styles/helpers/variables';
+
+.categorie {
+  border-radius: 9999px;
+  padding: 8px 15px;
+  color: white;
+  background: $hoverColor;
+  margin-left: 5px;
+  font-size: 15px;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background: rgb(38, 38, 38);
+  }
+
+  &.selected {
+    background: $white;
+    color: $backgroundGrey;
+  }
+}

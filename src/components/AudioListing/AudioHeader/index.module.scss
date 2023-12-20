@@ -1,0 +1,21 @@
+.trackListHeader {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.trackListHeader > span {
+  &:first-child {
+    // Styles pour le numéro #
+    margin-right: 10px;
+  }
+  &:nth-child(2) {
+    flex-grow: 1;
+    // Styles pour le titre
+  }
+  &:last-child {
+    // Styles pour la durée
+    padding-left: 20px;
+  }
+}

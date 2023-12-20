@@ -43,7 +43,7 @@ const deleteAudio = async id => {
   }
 };
 
-export const searchAudios = async query => {
+const searchAudios = async query => {
   try {
     const response = await axios.get(`/audio/search?q=${query}`);
     return response.data;
@@ -52,4 +52,10 @@ export const searchAudios = async query => {
   }
 };
 
-export { uploadAudio, getAudiosPagination, deleteAudio, getAudios };
+export default {
+  uploadAudio,
+  getAudiosPagination,
+  deleteAudio,
+  getAudios,
+  searchAudios,
+};

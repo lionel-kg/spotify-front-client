@@ -1,9 +1,14 @@
-@import '../../styles/helpers/variables';
+@import '@/styles/helpers/variables';
 
 .library {
-  background-color: $backgroundGrey; /* Spotify green */
-  color: #fff;
-  padding: 10px 25px;
-  height: 100%;
+  position: relative;
+  background-color: $backgroundGrey;
+  color: $white;
+  height: 70vh;
   border-radius: 10px;
+
+  .listing {
+    height: 70%;
+    padding-top: 100px;
+  }
 }

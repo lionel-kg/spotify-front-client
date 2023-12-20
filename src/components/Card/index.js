@@ -1,55 +1,66 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './index.module.scss';
-import { useRouter } from 'next/router';
-import { FaPlay } from 'react-icons/fa';
-import { usePlayer } from '@/context/PlayerContext'; // Adjust the path as necessary
+import {useRouter} from 'next/router';
+import {FaPlay} from 'react-icons/fa';
+import {usePlayer} from '@/context/PlayerContext';
+import Link from 'next/link';
 
-const Index = ({ title, name, thumbnail, subtitle, artist, album, audios, url }) => {
-  const { updatePlaylist, playlist } = usePlayer();
+const Index = ({
+  id,
+  title,
+  name,
+  thumbnail,
+  subtitle,
+  artist,
+  album,
+  audios,
+  url,
+}) => {
+  const {updatePlaylist, playlist} = usePlayer();
   const displayTitle = title || name;
   const displayThumbnail = album?.thumbnail || thumbnail;
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
+  // console.log('propsssssss', props);
+  console.log('propsssssss', thumbnail);
 
-  const handlePlay = (e) => {
+  const handlePlay = e => {
     e.stopPropagation();
     if (Array.isArray(audios) && audios.length) {
       updatePlaylist(audios);
-    }
-    else if (url) {
+    } else if (url) {
       const singleSong = {
-        title: title || 'Unknown Title', // Adjust with the actual property names
+        title: title || 'Unknown Title',
         artist: subtitle || 'Unknown Artist',
         url: url,
-        thumbnail: thumbnail,
+        thumbnail: props.thumbnail,
       };
       updatePlaylist([singleSong]);
     }
   };
 
-  const handleCard = (e) => {
-    e.preventDefault();
-    // Implement navigation or other logic here
-    // router.push(props.href); // Adjust with your actual navigation logic
+  const handleOpenAlbum = id => {
+    return `/albums/${id}`;
   };
 
   return (
-    <div
-      className={styles.card}
-      onClick={handleCard}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}>
-      <div className={styles.container_img}>
-        <img src={displayThumbnail} alt={displayTitle} />
-        {isHovered && (
-          <button className={styles.play_button} onClick={handlePlay}>
-            <FaPlay />
-          </button>
-        )}
+    <Link className={styles.listItem} href={handleOpenAlbum(id)}>
+      <div
+        className={styles.card}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}>
+        <div className={styles.container_img}>
+          <img src={displayThumbnail} alt={displayTitle} />
+          {isHovered && (
+            <button className={styles.play_button} onClick={handlePlay}>
+              <FaPlay />
+            </button>
+          )}
+        </div>
+        <p className={styles.name}>{displayTitle}</p>
+        <p className={styles.artist}>{artist?.name}</p>
       </div>
-      <p className={styles.name}>{displayTitle}</p>
-      <p className={styles.artist}>{artist?.name}</p>
-    </div>
+    </Link>
   );
 };
 

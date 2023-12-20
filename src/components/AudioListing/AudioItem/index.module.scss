@@ -1,0 +1,52 @@
+@import '@/styles/helpers/variables';
+
+.audioRow {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 1px solid #282828;
+  &:hover {
+    background-color: #333;
+  }
+}
+
+.audioCell {
+  &:first-child {
+    // Styles pour le numéro de la piste
+    margin-right: 10px;
+  }
+  &:nth-child(2) {
+    flex-grow: 1;
+    // Styles pour le titre de la piste
+  }
+  &:last-child {
+    // Styles pour la durée de la piste
+    padding-left: 20px;
+  }
+}
+
+.liked {
+  color: #1db954; // Ou toute autre couleur que vous souhaitez pour l'état aimé
+}
+
+// components/index.module.scss
+.menuIcon {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  background-color: $backgroundGrey;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 100;
+
+  div {
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: $hoverColor;
+    }
+  }
+}

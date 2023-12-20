@@ -13,7 +13,7 @@ const Index = () => {
   return (
     <nav className={styles.navbar}>
       <ul>
-        <NavbarItem link="./" title="Accueil" icon={<AiFillHome />} />
+        <NavbarItem link="/" title="Accueil" icon={<AiFillHome />} />
         <NavbarItem link="/search" title="Recherche" icon={<FaSearch />} />
       </ul>
     </nav>

@@ -1,0 +1,20 @@
+@import '@/styles/helpers/variables';
+
+.list_container {
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 5px;
+
+  &::-webkit-scrollbar {
+    width: 12px; /* width of the entire scrollbar */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $backgroundGrey; /* color of the tracking area */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $backgroundScrollbar; /* color of the scroll thumb */
+    border: 3px solid $backgroundGrey; /* creates padding around scroll thumb */
+  }
+}

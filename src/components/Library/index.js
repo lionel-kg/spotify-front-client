@@ -1,19 +1,33 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './index.module.scss';
-import NavbarItem from '../NavbarItem';
 import Header from './Header';
+import List from './List';
 import {useRouter} from 'next/router';
 
-//Icons
-import {AiFillHome} from 'react-icons/ai';
-import {FaSearch} from 'react-icons/fa';
-
-const Index = () => {
+const Index = ({setIsExpanded}) => {
   const router = useRouter();
+  const [displayListing, setDisplayListing] = useState(false);
+  const [categorie, setCategorie] = useState('');
+
+  useEffect(() => {
+    setIsExpanded(displayListing);
+  }, [displayListing]);
 
   return (
-    <div className={styles.library}>
-      <Header />
+    <div
+      className={`${styles.library} ${
+        displayListing ? styles.displayMore : ''
+      }`}>
+      <Header
+        setDisplayListing={setDisplayListing}
+        displayListing={displayListing}
+        setCategorie={setCategorie}
+        categorie={categorie}
+      />
+
+      <div className={styles.listing}>
+        <List categorie={categorie} displayListing={displayListing} />
+      </div>
     </div>
   );
 };

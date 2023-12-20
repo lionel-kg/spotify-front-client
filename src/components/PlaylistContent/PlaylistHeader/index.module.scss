@@ -1,0 +1,26 @@
+.playlistHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #181818;
+}
+
+.playlistImage {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+}
+
+.playlistDetails {
+  flex-grow: 1;
+}
+
+.playlistTitle {
+  font-size: 4em;
+  margin: 0;
+}
+
+.playlistArtist,
+.playlistStats {
+  margin: 5px 0;
+}

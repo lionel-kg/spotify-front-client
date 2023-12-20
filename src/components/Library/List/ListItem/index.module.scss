@@ -1,0 +1,50 @@
+@import '@/styles/helpers/variables';
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #202020; // Remplacez par la couleur de fond souhaitée
+  border-radius: 8px;
+  margin-bottom: 10px; // Espace entre les éléments de la liste
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
+
+  .iconContainer {
+    margin-right: 10px;
+    color: #1db954; // Couleur des icônes
+
+    img {
+      height: 40px;
+      width: 40px;
+    }
+
+    &.artist img {
+      border-radius: 9999px;
+    }
+
+    &.album img {
+      border-radius: 5px;
+    }
+  }
+
+  .details {
+    .title {
+      font-weight: bold;
+      color: #fff; // Couleur du titre
+    }
+
+    .subtitle {
+      color: #aaa; // Couleur du sous-titre
+    }
+  }
+}
+
+.dateAdded {
+  color: #aaa; // Couleur du texte pour la date
+  margin-left: auto; // Aligner à droite
+}

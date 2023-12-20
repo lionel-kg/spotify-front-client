@@ -1,0 +1,32 @@
+// AlbumContent.module.scss
+$font-color: #fff;
+$highlight-color: #1db954;
+$background-color-header: #181818; // Couleur de fond pour le header
+$background-color-list: #0b0b0b; // Couleur de fond pour la liste
+
+.albumContent {
+  background-color: #0b0b0b;
+  color: $font-color;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.controlsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.iconPlay,
+.iconHeart,
+.iconMore {
+  margin-right: 20px;
+  font-size: 2em; // Ajuster selon la taille désirée
+  cursor: pointer;
+}
+
+.liked {
+  color: $highlight-color;
+}

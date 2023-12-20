@@ -1,32 +1,64 @@
 import React from 'react';
 import styles from './index.module.scss';
-import Button from '../../Button';
-import TitleIcon from '../../Title/TitleIcon';
-import {useRouter} from 'next/router';
+import Button from '@/components/Button';
+import TitleIcon from '@/components/Title/TitleIcon';
+import Categories from '../Categories';
 
 //Icons
+import {useState} from 'react';
 import {LuLibrary} from 'react-icons/lu';
-import {FaPlus} from 'react-icons/fa6';
-// import {FaArrowRight} from 'react-icons/fa';
-import {FaArrowRight} from 'react-icons/fa6'; //elle plutôt
+import {FaPlus, FaArrowRight, FaArrowLeft} from 'react-icons/fa6';
+import {usePlaylists} from '@/context/PlaylistContext';
+import PlaylistModal from '@/components/PlaylistModal'; // Assurez-vous que ce chemin est correct
 
-const Index = () => {
-  const router = useRouter();
+const Index = props => {
+  const [showModal, setShowModal] = useState(false);
+  const {playlists, addPlaylist} = usePlaylists();
+  const handleClick = e => {
+    e.preventDefault();
+    props.setDisplayListing(!props.displayListing);
+  };
+
+  const handleCreateNewPlaylist = playlistName => {
+    addPlaylist(playlistName);
+    setShowModal(false);
+  };
 
   return (
     <div className={styles.header}>
-      <TitleIcon type="h2" className={styles.title}>
-        <LuLibrary /> <p> Bibliothèque </p>
-      </TitleIcon>
-      <div className={styles.buttons}>
-        <Button>
-          <FaPlus />
-        </Button>
+      <div className={styles.titleLine}>
+        <TitleIcon
+          type="h2"
+          title="Bibliothèque"
+          icon={<LuLibrary />}
+          className={styles.title}
+        />
 
-        <Button>
-          <FaArrowRight />
-        </Button>
+        <div className={styles.buttons}>
+          <Button
+            onClick={() => {
+              setShowModal(true);
+            }}>
+            <FaPlus />
+          </Button>
+
+          <Button
+            onClick={e => {
+              handleClick(e);
+            }}>
+            {props.displayListing ? <FaArrowLeft /> : <FaArrowRight />}
+          </Button>
+        </div>
       </div>
+      <div className={styles.categories}>
+        <Categories {...props} />
+      </div>
+
+      <PlaylistModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onCreate={handleCreateNewPlaylist}
+      />
     </div>
   );
 };

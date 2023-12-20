@@ -1,6 +1,6 @@
 import axios from '../config/axios';
 
-export const getArtists = async () => {
+const getArtists = async () => {
   try {
     const response = await axios.get('http://localhost:4001/artist/');
     return response.data;
@@ -9,7 +9,7 @@ export const getArtists = async () => {
   }
 };
 
-export const getArtistById = async id => {
+const getArtistById = async id => {
   try {
     const response = await axios.get(`http://localhost:4001/artist/${id}`);
     return response.data;
@@ -18,7 +18,7 @@ export const getArtistById = async id => {
   }
 };
 
-export const updateArtist = async (id, formData) => {
+const updateArtist = async (id, formData) => {
   try {
     const response = await axios.put(
       `http://localhost:4001/artist/${id}`,
@@ -30,7 +30,7 @@ export const updateArtist = async (id, formData) => {
   }
 };
 
-export const deleteArtist = async id => {
+const deleteArtist = async id => {
   try {
     const response = await axios.delete(`http://localhost:4001/artist/${id}`);
     return response.data;
@@ -39,11 +39,19 @@ export const deleteArtist = async id => {
   }
 };
 
-export const searchArtists = async query => {
+const searchArtists = async query => {
   try {
     const response = await axios.get(`/artist/search?q=${query}`);
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
+
+export default {
+  getArtists,
+  getArtistById,
+  updateArtist,
+  deleteArtist,
+  searchArtists,
+};

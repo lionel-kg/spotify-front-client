@@ -1,4 +1,4 @@
-@import '../../styles/helpers/variables';
+@import '@/styles/helpers/variables';
 
 .btn {
   display: flex;
@@ -8,7 +8,7 @@
   border: none;
   font-size: 20px;
   border-radius: 50%;
-  color: white;
+  color: $light-gray;
   padding: 5px;
   transition: ease-in-out 0.05s;
   cursor: pointer;

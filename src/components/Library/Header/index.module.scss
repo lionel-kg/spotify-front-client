@@ -1,25 +1,25 @@
-@import '../../../styles/helpers/variables';
+@import '@/styles/helpers/variables';
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: $light-gray;
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  right: 25px;
+  z-index: 1;
+  height: 100px;
 
-  .buttons {
+  .titleLine {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-  }
+    color: $light-gray;
 
-  .title {
-    display: flex;
-    justify-content: center;
-    margin-left: 5px;
-    font-size: 20px;
-    p {
-      margin-left: 5px;
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $light-gray;
+      gap: 15px;
     }
   }
 }

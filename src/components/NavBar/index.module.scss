@@ -1,10 +1,10 @@
-@import '../../styles/helpers/variables';
+@import '@/styles/helpers/variables';
 
 .navbar {
   background-color: $backgroundGrey; /* Spotify green */
   color: #fff;
   padding: 10px 25px;
-  // height: 50%;
+  height: 20vh;
   border-radius: 10px;
 
   ul {

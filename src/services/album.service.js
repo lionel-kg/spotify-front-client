@@ -1,6 +1,6 @@
 import axios from '../config/axios';
 
-export const getAlbums = async () => {
+const getAlbums = async () => {
   try {
     const response = await axios.get('/album/');
     return response.data;
@@ -9,7 +9,7 @@ export const getAlbums = async () => {
   }
 };
 
-export const getAlbumById = async id => {
+const getAlbumById = async id => {
   try {
     const response = await axios.get(`/album/${id}`);
     return response.data;
@@ -18,7 +18,7 @@ export const getAlbumById = async id => {
   }
 };
 
-export const updateAlbum = async (id, formData) => {
+const updateAlbum = async (id, formData) => {
   try {
     const response = await axios.put(
       `http://localhost:4001/album/${id}`,
@@ -35,20 +35,28 @@ export const updateAlbum = async (id, formData) => {
   }
 };
 
-export const deleteAlbum = async id => {
+const deleteAlbum = async id => {
   try {
     const response = await axios.delete(`http://localhost:4001/album/${id}`);
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const searchAlbums = async query => {
+const searchAlbums = async query => {
   try {
-    const response = await axios.get(`/album/search?q=${query}`)
+    const response = await axios.get(`/album/search?q=${query}`);
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
+
+export default {
+  getAlbums,
+  getAlbumById,
+  updateAlbum,
+  deleteAlbum,
+  searchAlbums,
+};
