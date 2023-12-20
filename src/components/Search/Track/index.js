@@ -5,13 +5,22 @@ import styles from './index.module.scss';
 import { FaPlay, FaPause } from "react-icons/fa6";
 
 const Index = ({ track }) => {
-  const { handlePlay, updatePlaylist, indexPlaylist, playlist, isPlaying, setIsPlaying } = usePlayer();
+  const { handleSong, handlePause, handleResume, updatePlaylist, indexPlaylist, playlist, isPlaying, setIsPlaying, audioRef, isSongPlaying } = usePlayer();
   const [isHovered, setIsHovered] = useState(false);
 
-  const onPlay = (e) => {
-    e.stopPropagation();
-    handlePlay(null, track.url, track.album.thumbnail, track.title, track.artist, track.id);
+  const handleClick = (e) => {
+
+    if (isSongPlaying(track.id)) {
+      if (isPlaying) {
+        handlePause(e);
+      } else {
+        handleResume(e);
+      }
+    } else {
+      handleSong(track.url, track.album.thumbnail, track.title, track.artist, track.id);
+    }
   };
+
 
   return (
     <div
@@ -22,31 +31,26 @@ const Index = ({ track }) => {
       <div className={styles.image_container}>
         <Image
           src={track.album.thumbnail}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           alt="image"
           loading='lazy'
         />
-        {isHovered && playlist[indexPlaylist]?.id != track.id && (
+        {isHovered && (
           <button
             className={styles.play_icon}
-            onClick={onPlay}
+            onClick={handleClick}
           >
-            <FaPlay size={25} color='white' />
-          </button>
-        )}
-
-        {isHovered && playlist[indexPlaylist]?.id == track.id && isPlaying && (
-          <button
-            className={styles.play_icon}
-            onClick={() => setIsPlaying(false)}
-          >
-            <FaPause size={25} color='white' />
+            {isPlaying && isSongPlaying(track.id) ? (
+              <FaPause color='white' />
+            ) : (
+              <FaPlay color='white' />
+            )}
           </button>
         )}
       </div>
       <div className={styles.track_info}>
-        <p>{track.title}</p>
+        <p className={`${isSongPlaying(track.id) && styles.title_playing}`}>{track.title}</p>
         <p className={styles.artist}>{track.artist.name}</p>
       </div>
     </div >

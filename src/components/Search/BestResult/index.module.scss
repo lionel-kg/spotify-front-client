@@ -1,14 +1,21 @@
+@import '../../../styles/helpers/variables';
+
 .artist_highlight {
-  h3 {
+  h2 {
     margin-bottom: 20px;
+    font-size: $font-md;
   }
 
   &_content {
-    background-color: #181818;
+    background-color: $background-card;
     padding: 20px;
     border-radius: 10px;
     display: grid;
-    gap: 15px;
+    gap: 20px;
+
+    h3 {
+      font-size: $font-lg;
+    }
 
     img {
       width: 100px;

@@ -1,10 +1,39 @@
-.best_results {
-  display: grid;
-}
+.search_container {
+  padding: 10px;
 
-.search_results .best_results {
-  margin: 30px 0;
-  display: grid;
-  grid-template-columns: 1fr 3fr; // Adjust the fr units as necessary to match your design
-  gap: 20px; // This sets the space between the columns and rows
+  .empty {
+    margin-top: 20px;
+
+
+    .discover {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
+      grid-gap: 10px;
+      margin-top: 30px;
+    }
+  }
+
+
+  .search_results {
+    .no_result {
+      padding-top: 25%;
+      text-align: center;
+
+      p {
+        padding-bottom: 10px;
+      }
+    }
+
+    .best_results {
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+    }
+
+    .slider_results {
+      display: grid;
+      gap: 50px;
+    }
+  }
+
 }

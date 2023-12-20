@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import PageTitle from '../components/PageTitle';
 import Section from '../components/Section/index';
 import audioService from '@/services/audio.service';
 import Card from '@/components/Card';
 import socketService, {getRooms} from '@/services/socketIo.service';
 import axios from '../config/axios';
-import RoomList from '@/components/RoomList';
 import {usePlayer} from '@/context/PlayerContext';
 
 export default function Home() {

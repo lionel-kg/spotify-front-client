@@ -1,20 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import styles from './index.module.scss';
 import {useRouter} from 'next/router';
-import {FaPlay} from 'react-icons/fa';
+import {FaPlay, FaPause} from 'react-icons/fa';
 import {usePlayer} from '@/context/PlayerContext';
 import Link from 'next/link';
 import socketService from '@/services/socketIo.service';
 
 const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
-  const {handlePlay, playlist} = usePlayer();
+  const {
+    playlist,
+    handlePlaylist,
+    handleSong,
+    handlePause,
+    handleResume,
+    isPlaying,
+    setIsPlaying,
+    audioRef,
+    indexPlaylist,
+    isPlaylistPlaying,
+    isSongPlaying,
+  } = usePlayer();
   const displayTitle = title || name;
   const displayThumbnail = album?.thumbnail || thumbnail;
   const diplayArtist = artist || '';
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
-  // console.log('propsssssss', props);
-  console.log('propsssssss', thumbnail);
 
   /* const handlePlay = e => {
     e.stopPropagation();
@@ -40,9 +50,23 @@ const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
     handlePlay(audios, url, displayThumbnail, displayTitle, diplayArtist, id);
   };
 
-  useEffect(() => {
-    socketService.connect();
-  }, []);
+  // useEffect(() => {
+  //   socketService.connect();
+  // }, []);
+
+  const handleClick = e => {
+    e.preventDefault();
+    if (isSongPlaying(id) || isPlaylistPlaying(audios)) {
+      isPlaying ? handlePause(e) : handleResume(e);
+    } else {
+      audios
+        ? handlePlaylist(audios, displayThumbnail, diplayArtist)
+        : handleSong(url, displayThumbnail, displayTitle, diplayArtist, id);
+    }
+  };
+
+  const isCurrentSongPlaying =
+    isPlaying && (isSongPlaying(id) || isPlaylistPlaying(audios));
 
   // const handlePlay = e => {
   //   e.stopPropagation();
@@ -72,9 +96,13 @@ const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
         onMouseLeave={() => setIsHovered(false)}>
         <div className={styles.container_img}>
           <img src={displayThumbnail} alt={displayTitle} />
-          {isHovered && (
-            <button className={styles.play_button} onClick={handlePlay}>
-              <FaPlay />
+          {(isCurrentSongPlaying || isHovered) && (
+            <button className={styles.button_play} onClick={handleClick}>
+              {isCurrentSongPlaying ? (
+                <FaPause color="white" />
+              ) : (
+                <FaPlay color="white" />
+              )}
             </button>
           )}
         </div>

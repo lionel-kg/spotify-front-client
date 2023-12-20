@@ -16,15 +16,15 @@ const myFont = localFont({
 
 function MyApp({Component, pageProps}) {
   const router = useRouter();
-  useEffect(() => {
-    // Initialiser la connexion au socket ici
-    socketService.connect();
+  // useEffect(() => {
+  //   // Initialiser la connexion au socket ici
+  //   socketService.connect();
 
-    // Nettoyer la connexion au socket lors du démontage du composant
-    return () => {
-      socketService.disconnect();
-    };
-  }, []);
+  //   // Nettoyer la connexion au socket lors du démontage du composant
+  //   return () => {
+  //     socketService.disconnect();
+  //   };
+  // }, []);
   return (
     <PlaylistProvider>
       <AudioPlayerProvider>

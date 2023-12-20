@@ -1,11 +1,18 @@
 import styles from "./index.module.scss";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoIosClose } from "react-icons/io";
 
-const Index = ({ onSearch }) => {
+const Index = ({ onSearch, inputRef, onDelete, value }) => {
   return (
     <div className={styles.search_container}>
       <IoIosSearch size={25} />
-      <input type="text" placeholder="Que souhaitez-vous écouter ?" onChange={onSearch} />
+      <input
+        type="text"
+        placeholder="Que souhaitez-vous écouter ?"
+        onChange={onSearch}
+        ref={inputRef}
+        value={value}
+      />
+      {value && <IoIosClose size={25} onClick={onDelete} />}
     </div>
   );
 };

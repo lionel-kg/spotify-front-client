@@ -1,4 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {formatTime} from '@/helpers/tool.helper';
+import shuffle from 'just-shuffle';
 import styles from './index.module.scss';
 import {
   FaBackward,
@@ -12,10 +14,8 @@ import {TbRepeat, TbRepeatOnce} from 'react-icons/tb';
 import {usePlayer} from '@/context/PlayerContext';
 import InputRange from '@/components/InputRange';
 import socketService from '@/services/socketIo.service';
-import {formatTime} from '@/helpers/tool.helper';
 
 const CustomAudioPlayer = ({selectedRoom}) => {
-  const audioRef = useRef(null);
   const {
     playlist,
     updatePlaylist,
@@ -23,6 +23,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     setIsPlaying,
     indexPlaylist,
     setIndexPlaylist,
+    audioRef,
   } = usePlayer();
   const [sharePlaylist, setSharePlaylist] = useState([]);
   const [duration, setDuration] = useState(0);
@@ -34,35 +35,35 @@ const CustomAudioPlayer = ({selectedRoom}) => {
   const [repeatMode, setRepeatMode] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
 
-  useEffect(() => {
-    socketService.connect();
+  // useEffect(() => {
+  //   socketService.connect();
 
-    // Écouter l'événement émis par le serveur pour obtenir l'état initial du lecteur audio
-    socketService.on('playbackState', ({currentTime, isPlaying, playlist}) => {
-      console.log('playbackState', currentTime, isPlaying, playlist);
-      if (audioRef.current) {
-        // Appliquer l'état initial du lecteur audio
-        setCurrentTime(currentTime);
-        setDuration(currentTime);
-        console.log('test', duration);
-        setIsPlaying(isPlaying);
-        audioRef.current.currentTime = currentTime;
-        audioRef.current.pause();
-        // Charger la playlist
-        // ...
+  //   // Écouter l'événement émis par le serveur pour obtenir l'état initial du lecteur audio
+  //   socketService.on('playbackState', ({ currentTime, isPlaying, playlist }) => {
+  //     console.log('playbackState', currentTime, isPlaying, playlist);
+  //     if (audioRef.current) {
+  //       // Appliquer l'état initial du lecteur audio
+  //       setCurrentTime(currentTime);
+  //       setDuration(currentTime);
+  //       console.log('test', duration);
+  //       setIsPlaying(isPlaying);
+  //       audioRef.current.currentTime = currentTime;
+  //       audioRef.current.pause();
+  //       // Charger la playlist
+  //       // ...
 
-        // Si la musique est en cours de lecture, jouer
-        if (isPlaying) {
-          audioRef.current.play();
-        }
-      }
-    });
+  //       // Si la musique est en cours de lecture, jouer
+  //       if (isPlaying) {
+  //         audioRef.current.play();
+  //       }
+  //     }
+  //   });
 
-    // Nettoyer les écouteurs d'événements lors du démontage du composant
-    return () => {
-      socketService.off('playbackState');
-    };
-  }, []);
+  //   // Nettoyer les écouteurs d'événements lors du démontage du composant
+  //   return () => {
+  //     socketService.off('playbackState');
+  //   };
+  // }, []);
 
   useEffect(() => {
     const updateTimer = setInterval(() => {
@@ -81,26 +82,26 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     }
   }, [volume]);
 
-  useEffect(() => {
-    if (playlist.length > 0) {
-      socketService.on('playbackStarted', data => {
-        console.log(playlist);
-        console.log(data);
-        setSharePlaylist(data.playlist);
-        if (audioRef.current) {
-          // Mettre à jour la playlist directement au démarrage
-          updatePlaylist(data.playlist);
-          setIndexPlaylist(0);
-          audioRef.current.play();
-          setIsPlaying(true);
-        }
-      });
+  // useEffect(() => {
+  //   if (playlist.length > 0) {
+  //     socketService.on('playbackStarted', data => {
+  //       console.log(playlist);
+  //       console.log(data);
+  //       setSharePlaylist(data.playlist);
+  //       if (audioRef.current) {
+  //         // Mettre à jour la playlist directement au démarrage
+  //         updatePlaylist(data.playlist);
+  //         setIndexPlaylist(0);
+  //         audioRef.current.play();
+  //         setIsPlaying(true);
+  //       }
+  //     });
 
-      return () => {
-        socketService.off('playbackStarted');
-      };
-    }
-  }, [playlist]);
+  //     return () => {
+  //       socketService.off('playbackStarted');
+  //     };
+  //   }
+  // }, [playlist]);
 
   const randomize = array => {
     const randomizedArray = array.slice();
@@ -119,14 +120,13 @@ const CustomAudioPlayer = ({selectedRoom}) => {
   const handleMute = () => {
     setIsMuted(!isMuted);
     if (!isMuted) {
-      // If we are about to mute, save the current volume and set volume to 0
       setPrevVolume(volume);
       setVolume(0);
     } else {
-      // If we are unmuting, restore the previous volume
       setVolume(prevVolume);
     }
   };
+
   const handleSong = () => {
     const newIsPlaying = !isPlaying;
 
@@ -178,7 +178,6 @@ const CustomAudioPlayer = ({selectedRoom}) => {
 
   useEffect(() => {
     const audioElement = audioRef.current;
-    console.log(indexPlaylist);
     const handleSongEnd = () => {
       if (repeatMode === 2) {
         audioElement.play();
@@ -221,7 +220,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
             </div>
             <div className={styles.info}>
               <p className={styles.song__title}>
-                {sharePlaylist
+                {sharePlaylist.length > 0
                   ? sharePlaylist[indexPlaylist]?.title
                   : playlist[indexPlaylist].title}
               </p>
@@ -242,7 +241,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
               }}
               ref={audioRef}
               src={
-                sharePlaylist
+                sharePlaylist.length > 0
                   ? sharePlaylist[indexPlaylist]?.url
                   : playlist[indexPlaylist]?.url
               }

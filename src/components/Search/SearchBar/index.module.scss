@@ -4,13 +4,12 @@
   display: flex;
   gap: 5px;
   align-items: center;
-  border: 1px solid white;
   padding: 10px 10px;
   border-radius: 30px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
 
   &:focus-within {
-    border-color: white; // This sets the border color when the input is focused
+    border: 2px solid white; // This sets the border color when the input is focused
   }
 
   input {

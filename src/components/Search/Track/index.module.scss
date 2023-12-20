@@ -1,3 +1,5 @@
+@import '../../../styles/helpers/variables.scss';
+
 .track {
   display: flex;
   align-items: center;
@@ -22,6 +24,10 @@
       font-size: 12px;
       margin-top: 3px;
       color: #a7a7a7;
+    }
+
+    .title_playing {
+      color: $primary-color;
     }
   }
 

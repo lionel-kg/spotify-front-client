@@ -22,6 +22,10 @@
     // Styles pour la durée de la piste
     padding-left: 20px;
   }
+
+  &.playing {
+    color: $primary-color;
+  }
 }
 
 .liked {

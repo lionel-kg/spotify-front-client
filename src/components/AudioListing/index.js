@@ -10,7 +10,7 @@ const MusicList = ({album}) => {
       <AudioHeader />
       <div className={styles.audioList}>
         {album?.audios?.map((audio, index) => (
-          <AudioItem audio={audio} index={index} />
+          <AudioItem audio={audio} index={index} album={album} />
         ))}
       </div>
     </>

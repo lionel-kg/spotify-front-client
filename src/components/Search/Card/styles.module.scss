@@ -1,0 +1,18 @@
+.card {
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 10px 0px 10px;
+  border-radius: 10px;
+
+  p {
+    font-size: 22px;
+  }
+
+  img {
+    transform: rotate(15deg);
+    position: absolute;
+    bottom: 0;
+    right: -20px;
+  }
+}

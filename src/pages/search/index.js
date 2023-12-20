@@ -1,18 +1,23 @@
-import React, {useState, useEffect, useRef, useDeferredValue} from 'react';
+import React, { useState, useEffect, useRef, useDeferredValue, Suspense, lazy } from "react";
 import styles from './index.module.scss';
+import Skeleton from 'react-loading-skeleton';
 
 //Services
 import albumService from '@/services/album.service';
 import artistService from '@/services/artist.service';
 import audioService from '@/services/audio.service';
+
 //Components
-import Section from '@/components/Section';
-import Card from '@/components/Card';
-import SearchBar from '@/components/Search/SearchBar';
+import PageTitle from "@/components/PageTitle";
+import Section from "@/components/Section";
+import SearchBar from "@/components/Search/SearchBar";
 import TrackList from '@/components/Search/TrackList';
 import BestResult from '@/components/Search/BestResult';
 
+const CardComponent = lazy(() => import('@/components/Search/Card'));
+
 const Index = () => {
+  const inputRef = useRef(null);
   const [input, setInput] = useState('');
   const deferredQuery = useDeferredValue(input);
 
@@ -27,8 +32,18 @@ const Index = () => {
     setInput(e.target.value);
   };
 
+  const clearInput = e => {
+    setInput('');
+  }
+
   useEffect(() => {
-    if (input.length > 0) {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (deferredQuery?.length > 0) {
       setIsLoading(true);
       clearTimeout(callRef.current);
       callRef.current = setTimeout(async () => {
@@ -47,7 +62,6 @@ const Index = () => {
           console.error('Error fetching data:', error);
         } finally {
           setIsLoading(false);
-          console.log(bestArtist);
         }
       }, 300);
     } else {
@@ -58,23 +72,54 @@ const Index = () => {
     }
 
     return () => clearTimeout(callRef.current);
-  }, [input]);
+  }, [deferredQuery]);
 
   return (
-    <div>
-      <SearchBar onSearch={handleChange} />
-      <div className={styles.search_results}>
-        <div className={styles.best_results}>
-          <BestResult artist={bestArtist} />
-          {audioData.length > 0 && <TrackList tracks={audioData.slice(0, 4)} />}
+    <div className={styles.search_container}>
+      <SearchBar onSearch={handleChange} onDelete={clearInput} inputRef={inputRef} value={input} />
+      {input ? (
+        <div className={styles.search_results}>
+          {artistData.length <= 0 && audioData.length <= 0 && albumData.length <= 0 && !isLoading && (
+            <div className={styles.no_result}>
+              <p>Aucun résultat pour "{input}"</p>
+              <p>Veuillez vérifier l'orthographe ou utiliser moins de mots-clés ou d'autres mots-clés.</p>
+            </div>
+          )}
+          <div className={styles.best_results}>
+            {artistData.length > 0 && (
+              <BestResult artist={bestArtist} />
+            )}
+            {audioData.length > 0 && (
+              <TrackList tracks={audioData.slice(0, 4)} />
+            )}
+          </div>
+
+          <div className={styles.slider_results}>
+
+            {artistData.length > 0 && (
+              <Section title="Artistes" cards={artistData} />
+            )}
+
+            {albumData.length > 0 && (
+              <Section title="Albums" cards={albumData} />
+            )}
+          </div>
         </div>
+      ) : (
+        <div className={styles.empty}>
+          <PageTitle title="Parcourir tout" />
 
-        {artistData.length > 0 && (
-          <Section title="Artistes" cards={artistData} />
-        )}
-
-        {albumData.length > 0 && <Section title="Artistes" cards={albumData} />}
-      </div>
+          <div className={styles.discover}>
+            <Suspense fallback={<Skeleton />}>
+              <CardComponent title="Musiques" bgColor="#dc148c" />
+            </Suspense>
+            <CardComponent title="Albums" bgColor="#006450" />
+            <CardComponent title="Artistes" bgColor="#1e3264" />
+            <CardComponent title="Dernières sorties" bgColor="#8e66ac" />
+            <CardComponent title="Conçu pour vous" bgColor="#bc5900" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
