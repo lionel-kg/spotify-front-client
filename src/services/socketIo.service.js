@@ -6,6 +6,8 @@ export const getRooms = async () => {
   return response.data;
 };
 
+const url = process.env.API_BASE_URL;
+
 class SocketService {
   constructor() {
     this.socket = null;
@@ -13,7 +15,7 @@ class SocketService {
   }
 
   async connect() {
-    this.socket = io(process.env.API_BASE_URL);
+    this.socket = io(url);
     this.isConnected = true;
 
     // Gestionnaire d'événement pour la connexion
