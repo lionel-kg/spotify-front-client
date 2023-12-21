@@ -9,7 +9,12 @@ import {
   FaPauseCircle,
   FaPlayCircle,
 } from 'react-icons/fa';
-import {FaBackwardStep, FaForwardStep, FaShuffle} from 'react-icons/fa6';
+import {
+  FaBackwardStep,
+  FaBars,
+  FaForwardStep,
+  FaShuffle,
+} from 'react-icons/fa6';
 import {IoVolumeMuteOutline, IoVolumeMediumOutline} from 'react-icons/io5';
 import {TbRepeat, TbRepeatOnce} from 'react-icons/tb';
 import {usePlayer} from '@/context/PlayerContext';
@@ -365,7 +370,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
             </div>
           </div>
           <Link href="/queue">
-            <p>QUEUE</p>
+            <FaBars />
           </Link>
           <div className={styles.volume_container}>
             <button onClick={handleMute} className={styles.muteButton}>

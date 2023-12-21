@@ -1,0 +1,15 @@
+@import "../../styles/helpers/variables.scss";
+
+.container_queue {
+  padding: 10px;
+  .current {
+    background-color: $primary-color;
+  }
+  p {
+    width: fit-content;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #121212;
+    margin: 10px;
+  }
+}
