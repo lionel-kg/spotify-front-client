@@ -1,11 +1,10 @@
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
-// const url = 'http://localhost:4001/';
-const url = 'https://api.spotify.ismadev.net/';
-
+// Ou si process.env est utilisé comme module
+// Utilisez ensuite la variable API_BASE_URL normalement dans votre code
 const instance = axios.create({
-  baseURL: url,
+  baseURL: process.env.API_BASE_URL,
   timeout: 10000, // Timeout after 10 seconds
   headers: {
     'Content-Type': 'application/json',
