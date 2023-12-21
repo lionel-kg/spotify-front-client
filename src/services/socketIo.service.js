@@ -16,7 +16,7 @@ class SocketService {
   }
 
   async connect() {
-    this.socket = io('localhost:4001');
+    this.socket = io(url);
     this.isConnected = true;
 
     // Gestionnaire d'événement pour la connexion
