@@ -17,7 +17,6 @@ export default function Home() {
   const {playlist, updatePlaylist} = usePlayer();
 
   const handleJoinRoom = useCallback(() => {
-    socketService.connect();
     socketService.on('playbackState', ({currentTime, isPlaying, playlist}) => {
       console.log('playbackState', currentTime, isPlaying, playlist);
       updatePlaylist(playlist);
@@ -25,13 +24,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    socketService.emit('getRooms');
-
-    // Écouter la liste des salles mise à jour du serveur
+    socketService.connect();
+    socketService.emit('getRooms'); // Écouter la liste des salles mise à jour du serveur
     socketService.on('roomsList', updatedRoomsList => {
       setRooms(updatedRoomsList);
     });
-  }, [loadingRoom]);
+    return () => {
+      socketService.off('getRooms', handleUserJoined);
+      socketService.off('roomsList', handleUserLeft);
+    };
+  }, []);
 
   useEffect(() => {
     audioService.getAudios().then(res => {
