@@ -13,7 +13,6 @@ const Index = () => {
       if (id) {
         try {
           const albumData = await albumService.getAlbumById(id);
-          console.log('albumData', albumData);
           setAlbum(albumData);
         } catch (err) {
           console.error(err);

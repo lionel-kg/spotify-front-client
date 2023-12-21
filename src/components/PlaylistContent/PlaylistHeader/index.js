@@ -5,10 +5,7 @@ import {usePlayer} from '@/context/PlayerContext';
 
 const Index = ({playlist}) => {
   const {indexPlaylist} = usePlayer();
-  useEffect(() => {
-    console.log('indexPlaylist', indexPlaylist);
-    console.log(playlist);
-  }, [indexPlaylist]);
+  useEffect(() => {}, [indexPlaylist]);
   return (
     <div className={styles.playlistHeader}>
       <img

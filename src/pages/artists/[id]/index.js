@@ -13,7 +13,6 @@ const Index = () => {
       if (id) {
         try {
           const artistData = await artistService.getArtistById(id);
-          console.log('artistData', artistData);
           setArtist(artistData);
         } catch (err) {
           console.error(err);

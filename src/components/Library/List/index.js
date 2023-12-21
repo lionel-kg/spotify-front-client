@@ -39,7 +39,6 @@ const Index = props => {
     }
 
     if (!props.categorie || props.categorie === 'artist') {
-      console.log('les artists', artists);
       items.push(
         ...Object.keys(artists).map(key => {
           return {

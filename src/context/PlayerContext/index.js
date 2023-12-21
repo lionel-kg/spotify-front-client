@@ -22,32 +22,36 @@ export const AudioPlayerProvider = ({children}) => {
     setPlaylist(newPlaylist);
   };
 
-  //Nouvelle méthode pour gérer le player ?
-
-  // const handleMedia = async (media, thumbnail, artist, index = 0) => {
-  //   setPlaylist[[]];
-  //   setIndexPlaylist(index);
-  //   const isPlaylist = Array.isArray(media);
-  //   const mediaList = isPlaylist ? media : [media];
-
-  //   const playlistUpdated = mediaList.map(audio => ({
-  //     ...audio,
-  //     thumbnail:
-  //       thumbnail || audio?.album?.thumbnail || 'default_thumbnail_url.jpg',
-  //     artist: artist || audio?.artist?.name || 'Unknown Artist',
-  //     playedAt: Date.now(),
-  //   }));
-
-  //   setPlaylist(playlistUpdated);
-
-  //   socketService.emit('startPlayback', {
-  //     currentTime: 0,
-  //     isPlaying: true,
-  //     index: index,
-  //     playlist: playlistUpdated,
-  //   });
-  //   setIsPlaying(true);
-  // };
+  const handlePlay = (audios, url, thumbnail, title, artist, id) => {
+    if (Array.isArray(audios) && audios.length) {
+      const playlistUpdated = audios.map(audio => ({
+        ...audio,
+        thumbnail: thumbnail,
+        artist: artist.name,
+      }));
+      setPlaylist(playlistUpdated);
+      socketService.emit('startPlayback', {
+        currentTime: 0,
+        isPlaying: true,
+        playlist: playlistUpdated,
+      });
+    } else if (url) {
+      const singleSong = {
+        id: id,
+        title: title,
+        artist: artist.name,
+        url: url,
+        thumbnail: thumbnail,
+      };
+      setPlaylist([singleSong]);
+      socketService.emit('startPlayback', {
+        currentTime: 0,
+        isPlaying: true,
+        playlist: [singleSong],
+      });
+    }
+    setIsPlaying(true);
+  };
 
   useEffect(() => {
     const currentSong = playlist[indexPlaylist];
@@ -99,7 +103,6 @@ export const AudioPlayerProvider = ({children}) => {
   };
 
   const handlePlaylist = (audios, thumbnail, artist, index) => {
-    console.log(thumbnail);
     setPlaylist[[]];
     index ? setIndexPlaylist(index) : setIndexPlaylist(0);
     const playlistUpdated = audios.map(audio => ({

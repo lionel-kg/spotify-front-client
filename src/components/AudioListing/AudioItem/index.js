@@ -27,7 +27,6 @@ const Index = ({audio, index, album}) => {
   const menuRef = useRef();
 
   useEffect(() => {
-    console.log(audio);
     setIsLiked(
       playlists.TitresAimes?.audios?.some(
         likedAudio => likedAudio.id === audio.id,
@@ -36,7 +35,6 @@ const Index = ({audio, index, album}) => {
   }, [playlists.TitresAimes, audio.title]);
 
   useEffect(() => {
-    console.log(audio);
     const checkIfClickedOutside = e => {
       if (showMenu && menuRef.current && !menuRef.current.contains(e.target)) {
         setShowMenu(false);
@@ -70,7 +68,6 @@ const Index = ({audio, index, album}) => {
     if (isLiked) {
       removeFromPlaylist('TitresAimes', audio.id);
     } else {
-      console.log(album?.artist);
       audio.thumbnail = album.thumbnail;
 
       addToPlaylist('TitresAimes', audio);

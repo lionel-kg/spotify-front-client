@@ -8,7 +8,6 @@ import {usePlaylists} from '@/context/PlaylistContext';
 
 const PlaylistContent = ({playlist}) => {
   const {removePlaylist} = usePlaylists();
-  console.log('playlist', playlist);
 
   const [displayTrash, setDisplayTrash] = useState(
     playlist?.name !== 'TitresAimes',
