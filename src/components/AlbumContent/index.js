@@ -6,7 +6,7 @@ import {
   FaRegHeart,
   FaEllipsisH,
 } from 'react-icons/fa';
-import styles from './index.module.scss'; // Assurez-vous que le chemin vers le fichier SCSS est correct
+import styles from './index.module.scss';
 import AlbumHeader from './AlbumHeader';
 import AudioListing from '../AudioListing';
 import {usePlaylists} from '@/context/PlaylistContext';

@@ -6,8 +6,7 @@ export const getRooms = async () => {
   return response.data;
 };
 
-// const url = 'http://localhost:4001';
-const url = 'https://api.spotify.ismadev.net/';
+const url = process.env.API_BASE_URL;
 
 class SocketService {
   constructor() {
@@ -16,7 +15,7 @@ class SocketService {
   }
 
   async connect() {
-    this.socket = io('localhost:4001');
+    this.socket = io(url);
     this.isConnected = true;
 
     // Gestionnaire d'événement pour la connexion

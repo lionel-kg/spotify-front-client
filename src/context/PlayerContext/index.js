@@ -6,11 +6,6 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
-import {
-  openDatabase,
-  addToHistory,
-  readHistory,
-} from '../../utils/indexedDBUtils';
 
 const PlayerContext = createContext();
 
@@ -56,29 +51,39 @@ export const AudioPlayerProvider = ({children}) => {
         isPlaying: true,
         playlist: [singleSong],
       });
-      console.log(singleSong);
     }
     setIsPlaying(true);
   };
 
-  // useEffect(() => {
-  //   setHistory(readHistory());
-  // }, [history])
+  useEffect(() => {
+    const currentSong = playlist[indexPlaylist];
+    if (currentSong && isPlaying) {
+      updateHistory(currentSong);
+    }
+  }, [playlist[indexPlaylist]]);
 
-  const addPlaylistToHistory = async audios => {
-    audios.map(async audio => {
-      const isAlreadyInHistory = history.some(h => h.id === audio.id);
-      if (!isAlreadyInHistory) {
-        // Add the additional properties to each audio, if necessary
-        const audioToAdd = {
-          ...audio,
-          playedAt: Date.now(),
-        };
-        await addToHistory(audioToAdd);
+  const updateHistory = async singleSong => {
+    const newHistoryEntry = {
+      ...singleSong,
+      listens: 1,
+      playedAt: new Date().toISOString(),
+    };
+    setHistory(prevHistory => {
+      // Check if the song is already in history
+      const existingIndex = prevHistory?.findIndex(
+        item => item.id === singleSong.id,
+      );
+      if (existingIndex !== -1) {
+        // Song is already in history, increment the listen count (if you're tracking listens)
+        const updatedHistory = [...prevHistory];
+        updatedHistory[existingIndex].listens += 1; // Increment listens count
+        updatedHistory[existingIndex].playedAt = new Date().toISOString();
+        return updatedHistory;
+      } else {
+        // Song is not in history, add it
+        return [...prevHistory, newHistoryEntry];
       }
     });
-
-    const savedHistory = await readHistory();
   };
 
   const handleSong = async (url, thumbnail, title, artist, id) => {
@@ -99,8 +104,6 @@ export const AudioPlayerProvider = ({children}) => {
       playlist: [singleSong],
     });
     setIsPlaying(true);
-    await addToHistory(singleSong);
-    const savedHistory = await readHistory();
   };
 
   const handlePlaylist = (audios, thumbnail, artist, index) => {
@@ -122,7 +125,6 @@ export const AudioPlayerProvider = ({children}) => {
       index: index,
       playlist: playlistUpdated,
     });
-    addPlaylistToHistory(audios);
     setIsPlaying(true);
   };
 
@@ -142,6 +144,10 @@ export const AudioPlayerProvider = ({children}) => {
 
   useEffect(() => {
     socketService.connect();
+
+    return () => {
+      socketService.disconnect();
+    };
   }, []);
   // Vous pouvez éventuellement écouter l'événement isPlaying une seule fois lors de la mise en place du composant
   useEffect(() => {
@@ -152,7 +158,6 @@ export const AudioPlayerProvider = ({children}) => {
       }
     };
     socketService.on('isPlaying', handleIsPlaying);
-
     return () => {
       socketService.off('isPlaying', handleIsPlaying);
     };
@@ -182,6 +187,7 @@ export const AudioPlayerProvider = ({children}) => {
         setIndexPlaylist,
         isPlaylistPlaying,
         isSongPlaying,
+        history,
       }}>
       {children}
     </PlayerContext.Provider>

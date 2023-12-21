@@ -37,12 +37,14 @@ const ListItem = ({item, displayListing}) => {
             <FaMusic />
           )}
         </div>
-        <div className={styles.details}>
-          <div className={styles.title}>{item.name}</div>
-          <div className={styles.subtitle}>{renderSubtitle()}</div>
-        </div>
+        {displayListing !== 'contracted' && (
+          <div className={styles.details}>
+            <div className={styles.title}>{item.name}</div>
+            <div className={styles.subtitle}>{renderSubtitle()}</div>
+          </div>
+        )}
       </div>
-      {displayListing && (
+      {displayListing === 'expanded' && (
         <div className={styles.dateAdded}>{formatDate(item.updated_at)}</div>
       )}
     </Link>

@@ -1,18 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './index.module.scss';
 import AudioItem from '@/components/AudioListing/AudioItem';
+import Title from '@/components/Title';
 
 const Index = ({audios}) => {
+  const [displayedAudios, setDisplayAudios] = useState(audios?.slice(0, 5));
+
+  const toggleDisplay = () => {
+    if (displayedAudios.length > 5) {
+      setDisplayAudios(audios?.slice(0, 5));
+    } else {
+      setDisplayAudios(audios);
+    }
+  };
+
+  console.log(displayedAudios);
   return (
-    <section className={styles.popularAudios}>
-      <h2>Populaires</h2>
+    <div className={styles.popularAudios}>
+      <Title type="h2">Populaires</Title>
       <ul>
-        {audios?.map((audio, index) => (
-          <AudioItem audio={audio} index={index} />
+        {displayedAudios.map((audio, index) => (
+          <AudioItem key={audio.id} audio={audio} index={index} />
         ))}
       </ul>
-      <button className={styles.showMore}>Afficher plus</button>
-    </section>
+
+      <button className={styles.showMore} onClick={toggleDisplay}>
+        {displayedAudios.length > 5 ? 'Afficher moins' : 'Afficher plus'}
+      </button>
+    </div>
   );
 };
 

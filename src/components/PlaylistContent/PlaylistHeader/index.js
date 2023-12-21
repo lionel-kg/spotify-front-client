@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './index.module.scss';
 import Title from '@/components/Title';
+import {usePlayer} from '@/context/PlayerContext';
 
 const Index = ({playlist}) => {
+  const {indexPlaylist} = usePlayer();
+  useEffect(() => {
+    console.log('indexPlaylist', indexPlaylist);
+    console.log(playlist);
+  }, [indexPlaylist]);
   return (
     <div className={styles.playlistHeader}>
       <img
-        src={playlist?.imageUrl}
-        alt={playlist?.name}
+        src={playlist?.audios[indexPlaylist].thumbnail}
+        alt={playlist?.title}
         className={styles.playlistImage}
       />
       <div className={styles.playlistDetails}>
@@ -16,6 +22,7 @@ const Index = ({playlist}) => {
         </Title>
         <p className={styles.playlistStats}>
           {playlist?.audios?.length} titres
+          {playlist?.audios[indexPlaylist].title}
         </p>
       </div>
     </div>

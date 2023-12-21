@@ -7,7 +7,7 @@ import {usePlaylists} from '@/context/PlaylistContext';
 const Index = props => {
   const {items} = props;
   const [listItems, setListItems] = useState(items);
-  const {playlists, albums} = usePlaylists();
+  const {playlists, albums, artists} = usePlaylists();
 
   useEffect(() => {
     let items = [];
@@ -37,14 +37,27 @@ const Index = props => {
         }),
       );
     }
-    // rajouter les artistes
+
+    if (!props.categorie || props.categorie === 'artist') {
+      console.log('les artists', artists);
+      items.push(
+        ...Object.keys(artists).map(key => {
+          return {
+            id: key,
+            name: artists[key].artist.name,
+            type: 'artist',
+            ...artists[key],
+          };
+        }),
+      );
+    }
 
     setListItems(items);
-  }, [playlists, albums, props.categorie]);
+  }, [playlists, albums, artists, props.categorie]);
 
   return (
     <div className={styles.list_container}>
-      {listItems && props.displayListing && <ListHeader />}
+      {listItems && props.displayListing === 'expanded' && <ListHeader />}
       {listItems?.map(item => (
         <ListItem
           key={item.id}

@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from '../styles/styles.scss';
 import {useRouter} from 'next/router';
 import MainLayout from '../layouts/MainLayout';
-import {AudioPlayerProvider} from '@/context/PlayerContext';
+import {AudioPlayerProvider, usePlayer} from '@/context/PlayerContext';
 import {PlaylistProvider} from '@/context/PlaylistContext';
 import CustomAudioPlayer from '@/components/CustomPlayer';
 import localFont from 'next/font/local';
@@ -16,15 +16,7 @@ const myFont = localFont({
 
 function MyApp({Component, pageProps}) {
   const router = useRouter();
-  // useEffect(() => {
-  //   // Initialiser la connexion au socket ici
-  //   socketService.connect();
 
-  //   // Nettoyer la connexion au socket lors du démontage du composant
-  //   return () => {
-  //     socketService.disconnect();
-  //   };
-  // }, []);
   return (
     <PlaylistProvider>
       <AudioPlayerProvider>

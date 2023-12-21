@@ -32,9 +32,9 @@ const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
     return `/albums/${albumId}`;
   };
 
-  useEffect(() => {
-    socketService.connect();
-  }, []);
+  // useEffect(() => {
+  //   socketService.connect();
+  // }, []);
 
   const handleClick = e => {
     e.preventDefault();

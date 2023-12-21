@@ -1,4 +1,7 @@
+@import '@/styles/helpers/variables';
+
 .popularAudios {
+  margin-bottom: 20px;
   padding: 1rem;
   color: white;
 
@@ -16,26 +19,15 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 0.5rem;
-
-      .audioNumber {
-        // styles for the audio number
-      }
-
-      .audioName {
-        // styles for the audio name
-      }
-
-      .audioStreams {
-        // styles for the streams count
-      }
-
-      .audioDuration {
-        // styles for the duration
-      }
     }
   }
 
   .showMore {
-    // Button styles
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    cursor: pointer;
   }
 }

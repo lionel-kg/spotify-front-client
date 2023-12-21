@@ -2,16 +2,9 @@ import React, {useState, useEffect} from 'react';
 import styles from './index.module.scss';
 import Header from './Header';
 import List from './List';
-import {useRouter} from 'next/router';
 
-const Index = ({setIsExpanded}) => {
-  const router = useRouter();
-  const [displayListing, setDisplayListing] = useState(false);
+const Index = ({displayListing, setDisplayListing}) => {
   const [categorie, setCategorie] = useState('');
-
-  useEffect(() => {
-    setIsExpanded(displayListing);
-  }, [displayListing]);
 
   return (
     <div

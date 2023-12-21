@@ -1,4 +1,4 @@
-@import "@/styles/helpers/variables";
+@import '@/styles/helpers/variables';
 
 .main__layout {
   margin: 10px;
@@ -10,6 +10,10 @@
 
   &.expanded {
     grid-template-columns: 40% 59%;
+  }
+
+  &.contracted {
+    grid-template-columns: 5% 94%;
   }
 
   .left__layout {

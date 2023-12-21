@@ -4,7 +4,7 @@ import AudioItem from './AudioItem';
 import AudioHeader from './AudioHeader';
 import styles from './index.module.scss';
 
-const MusicList = ({album}) => {
+const Index = ({album}) => {
   return (
     <>
       <AudioHeader />
@@ -17,4 +17,4 @@ const MusicList = ({album}) => {
   );
 };
 
-export default MusicList;
+export default Index;

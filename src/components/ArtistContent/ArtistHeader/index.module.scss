@@ -1,3 +1,5 @@
+@import '@/styles/helpers/variables';
+
 .artistHeader {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@
   text-align: center;
   background-size: cover;
   background-position: center;
-
+  margin-bottom: 20px;
   .backgroundImage {
     width: 100%;
     object-fit: cover;
@@ -14,23 +16,23 @@
 
   .artistInfo {
     position: relative;
-    top: -4rem; // Ajustez en fonction de la hauteur de votre image
-    background-color: rgba(0, 0, 0, 0.7); // Assurez un fond semi-transparent
+    // top: -4rem;
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 1rem;
 
-    .verifiedBadge {
-      display: inline-block;
-      margin-bottom: 1rem;
-      // Ajoutez des styles pour le badge vérifié ici
-    }
+    margin-bottom: 20px;
 
     .artistName {
-      font-size: 5rem; // Ajustez à la taille désirée
+      font-size: 5rem;
       margin-bottom: 0.5rem;
     }
 
     .listeners {
       font-size: 1.5rem;
     }
+  }
+
+  .liked {
+    color: $primary-color;
   }
 }
