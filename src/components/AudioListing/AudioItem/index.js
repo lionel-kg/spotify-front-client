@@ -59,16 +59,25 @@ const Index = ({audio, index, album}) => {
     }
   };
 
-  const handleLike = () => {
+  const handleLike = e => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isLiked) {
       removeFromPlaylist('TitresAimes', audio.title);
     } else {
+      console.log(album?.artist);
+      audio.thumbnail = album.thumbnail;
+
       addToPlaylist('TitresAimes', audio);
     }
     setIsLiked(!isLiked);
   };
 
-  const handleMenuClick = () => setShowMenu(!showMenu);
+  const handleMenuClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowMenu(!showMenu);
+  };
 
   const handleAddToPlaylist = playlistName => {
     if (
@@ -76,6 +85,7 @@ const Index = ({audio, index, album}) => {
         playlistAudio => playlistAudio.title === audio.title,
       )
     ) {
+      audio.thumbnail = album.thumbnail;
       addToPlaylist(playlistName, audio);
     }
     setShowMenu(false);
@@ -87,6 +97,7 @@ const Index = ({audio, index, album}) => {
   };
 
   const handleCreateNewPlaylist = playlistName => {
+    audio.thumbnail = album.thumbnail;
     addPlaylist(playlistName, [audio]);
     setShowModal(false);
   };
@@ -114,11 +125,14 @@ const Index = ({audio, index, album}) => {
                 onClick={handleLike}
               />
             ) : (
-              <FaRegHeart className={styles.likeIcon} onClick={handleLike} />
+              <FaRegHeart
+                className={styles.likeIcon}
+                onClick={e => handleLike(e)}
+              />
             )}
             <FaEllipsisV
               className={styles.menuIcon}
-              onClick={handleMenuClick}
+              onClick={e => handleMenuClick(e)}
             />
           </>
         )}

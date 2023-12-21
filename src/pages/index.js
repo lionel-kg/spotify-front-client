@@ -16,26 +16,27 @@ export default function Home() {
   const [rooms, setRooms] = useState([]);
   const {playlist, updatePlaylist} = usePlayer();
 
-  const handleJoinRoom = useCallback(() => {
-    socketService.on('playbackState', ({currentTime, isPlaying, playlist}) => {
-      console.log('playbackState', currentTime, isPlaying, playlist);
-      updatePlaylist(playlist);
-    });
-  }, []);
+  // const handleJoinRoom = useCallback(() => {
+  //   socketService.on('playbackState', ({currentTime, isPlaying, playlist}) => {
+  //     console.log('playbackState', currentTime, isPlaying, playlist);
+  //     updatePlaylist(playlist);
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   socketService.connect();
+  //   socketService.emit('getRooms'); // Écouter la liste des salles mise à jour du serveur
+  //   socketService.on('roomsList', updatedRoomsList => {
+  //     setRooms(updatedRoomsList);
+  //   });
+  //   return () => {
+  //     socketService.off('getRooms', handleUserJoined);
+  //     socketService.off('roomsList', handleUserLeft);
+  //   };
+  // }, []);
 
   useEffect(() => {
     socketService.connect();
-    socketService.emit('getRooms'); // Écouter la liste des salles mise à jour du serveur
-    socketService.on('roomsList', updatedRoomsList => {
-      setRooms(updatedRoomsList);
-    });
-    return () => {
-      socketService.off('getRooms', handleUserJoined);
-      socketService.off('roomsList', handleUserLeft);
-    };
-  }, []);
-
-  useEffect(() => {
     audioService.getAudios().then(res => {
       setAudios(res);
       setLoading(false);
@@ -48,7 +49,7 @@ export default function Home() {
       {loading === false && (
         <>
           <Section title="Ecouté recemment" cards={audios} />
-          <button onClick={handleJoinRoom}>rejoindre l'ecoute</button>
+          {/* <button onClick={handleJoinRoom}>rejoindre l'ecoute</button> */}
         </>
       )}
     </div>
