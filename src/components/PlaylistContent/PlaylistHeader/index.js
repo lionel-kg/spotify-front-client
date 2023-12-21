@@ -12,7 +12,7 @@ const Index = ({playlist}) => {
   return (
     <div className={styles.playlistHeader}>
       <img
-        src={playlist?.audios[indexPlaylist].thumbnail}
+        src={playlist?.audios[indexPlaylist]?.thumbnail}
         alt={playlist?.title}
         className={styles.playlistImage}
       />
@@ -22,7 +22,6 @@ const Index = ({playlist}) => {
         </Title>
         <p className={styles.playlistStats}>
           {playlist?.audios?.length} titres
-          {playlist?.audios[indexPlaylist].title}
         </p>
       </div>
     </div>
