@@ -22,38 +22,32 @@ export const AudioPlayerProvider = ({children}) => {
     setPlaylist(newPlaylist);
   };
 
-  const handlePlay = (audios, url, thumbnail, title, artist, id) => {
-    console.log(audios);
-    if (Array.isArray(audios) && audios.length) {
-      const playlistUpdated = audios.map(audio => ({
-        ...audio,
-        thumbnail: thumbnail,
-        artist: artist.name,
-      }));
-      console.log(playlistUpdated);
-      setPlaylist(playlistUpdated);
-      socketService.emit('startPlayback', {
-        currentTime: 0,
-        isPlaying: true,
-        playlist: playlistUpdated,
-      });
-    } else if (url) {
-      const singleSong = {
-        id: id,
-        title: title,
-        artist: artist.name,
-        url: url,
-        thumbnail: thumbnail,
-      };
-      setPlaylist([singleSong]);
-      socketService.emit('startPlayback', {
-        currentTime: 0,
-        isPlaying: true,
-        playlist: [singleSong],
-      });
-    }
-    setIsPlaying(true);
-  };
+  //Nouvelle méthode pour gérer le player ?
+
+  // const handleMedia = async (media, thumbnail, artist, index = 0) => {
+  //   setPlaylist[[]];
+  //   setIndexPlaylist(index);
+  //   const isPlaylist = Array.isArray(media);
+  //   const mediaList = isPlaylist ? media : [media];
+
+  //   const playlistUpdated = mediaList.map(audio => ({
+  //     ...audio,
+  //     thumbnail:
+  //       thumbnail || audio?.album?.thumbnail || 'default_thumbnail_url.jpg',
+  //     artist: artist || audio?.artist?.name || 'Unknown Artist',
+  //     playedAt: Date.now(),
+  //   }));
+
+  //   setPlaylist(playlistUpdated);
+
+  //   socketService.emit('startPlayback', {
+  //     currentTime: 0,
+  //     isPlaying: true,
+  //     index: index,
+  //     playlist: playlistUpdated,
+  //   });
+  //   setIsPlaying(true);
+  // };
 
   useEffect(() => {
     const currentSong = playlist[indexPlaylist];
@@ -69,14 +63,12 @@ export const AudioPlayerProvider = ({children}) => {
       playedAt: new Date().toISOString(),
     };
     setHistory(prevHistory => {
-      // Check if the song is already in history
       const existingIndex = prevHistory?.findIndex(
         item => item.id === singleSong.id,
       );
       if (existingIndex !== -1) {
-        // Song is already in history, increment the listen count (if you're tracking listens)
         const updatedHistory = [...prevHistory];
-        updatedHistory[existingIndex].listens += 1; // Increment listens count
+        updatedHistory[existingIndex].listens += 1;
         updatedHistory[existingIndex].playedAt = new Date().toISOString();
         return updatedHistory;
       } else {

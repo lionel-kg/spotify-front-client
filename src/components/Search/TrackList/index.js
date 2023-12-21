@@ -1,7 +1,7 @@
-import Track from "@/components/Search/Track";
-import styles from "./index.module.scss";
+import Track from '@/components/Search/Track';
+import styles from './index.module.scss';
 
-const Index = ({ tracks }) => {
+const Index = ({tracks}) => {
   return (
     <div className={styles.list}>
       <h2>Audio</h2>
