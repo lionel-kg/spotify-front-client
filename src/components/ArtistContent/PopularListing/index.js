@@ -14,7 +14,6 @@ const Index = ({audios}) => {
     }
   };
 
-  console.log(displayedAudios);
   return (
     <div className={styles.popularAudios}>
       <Title type="h2">Populaires</Title>

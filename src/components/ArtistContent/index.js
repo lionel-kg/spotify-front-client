@@ -4,8 +4,6 @@ import PopularListing from './PopularListing';
 import Discography from './DiscographyListing';
 
 const Index = ({artist}) => {
-  console.log('artist', artist);
-
   return (
     <div>
       <ArtistHeader artist={artist} />

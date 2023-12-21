@@ -23,14 +23,12 @@ export const AudioPlayerProvider = ({children}) => {
   };
 
   const handlePlay = (audios, url, thumbnail, title, artist, id) => {
-    console.log(audios);
     if (Array.isArray(audios) && audios.length) {
       const playlistUpdated = audios.map(audio => ({
         ...audio,
         thumbnail: thumbnail,
         artist: artist.name,
       }));
-      console.log(playlistUpdated);
       setPlaylist(playlistUpdated);
       socketService.emit('startPlayback', {
         currentTime: 0,
@@ -107,7 +105,6 @@ export const AudioPlayerProvider = ({children}) => {
   };
 
   const handlePlaylist = (audios, thumbnail, artist, index) => {
-    console.log(thumbnail);
     setPlaylist[[]];
     index ? setIndexPlaylist(index) : setIndexPlaylist(0);
     const playlistUpdated = audios.map(audio => ({

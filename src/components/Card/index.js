@@ -28,7 +28,6 @@ const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
 
   const handleOpenAlbum = album => {
     const albumId = album?.id ?? id;
-    console.log(albumId);
     return `/albums/${albumId}`;
   };
 

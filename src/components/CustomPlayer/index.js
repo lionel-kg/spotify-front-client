@@ -42,12 +42,10 @@ const CustomAudioPlayer = ({selectedRoom}) => {
 
   //   // Écouter l'événement émis par le serveur pour obtenir l'état initial du lecteur audio
   //   socketService.on('playbackState', ({ currentTime, isPlaying, playlist }) => {
-  //     console.log('playbackState', currentTime, isPlaying, playlist);
   //     if (audioRef.current) {
   //       // Appliquer l'état initial du lecteur audio
   //       setCurrentTime(currentTime);
   //       setDuration(currentTime);
-  //       console.log('test', duration);
   //       setIsPlaying(isPlaying);
   //       audioRef.current.currentTime = currentTime;
   //       audioRef.current.pause();
@@ -93,9 +91,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
 
   useEffect(() => {
     if (playlist.length > 0) {
-      console.log(playlist);
       socketService.on('playbackStarted', data => {
-        console.log(data);
         setSharePlaylist(data.playlist);
         setIndexPlaylist(data.index ?? 0);
         setPlaylistLength(data.playlist.length);
@@ -127,7 +123,6 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     updatePlaylist(randomizedArray);
     setSharePlaylist(randomizedArray);
     setPlaylistLength(randomizedArray.length);
-    console.log('Playlist', randomizedArray);
     setIsShuffleActive(!isShuffleActive);
   };
 
@@ -196,17 +191,9 @@ const CustomAudioPlayer = ({selectedRoom}) => {
       if (audioRef.current) {
         setCurrentTime(currentTime);
         audioRef.current.currentTime = currentTime;
-        console.log(currentTime);
       }
     });
   };
-
-  // useEffect(() => {
-  //   // console.log(sharePlaylist[indexPlaylist]);
-  //   // console.log(indexPlaylist);
-  //   // console.log(sharePlaylist[indexPlaylist]);
-  //   // console.log(playlist[indexPlaylist]);
-  // }, [sharePlaylist, indexPlaylist]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -270,9 +257,6 @@ const CustomAudioPlayer = ({selectedRoom}) => {
           </div>
           <div className={styles.player}>
             <audio
-              onChange={e => {
-                console.log('e', e);
-              }}
               onCanPlay={() => {
                 if (isPlaying) {
                   audioRef.current.play();
