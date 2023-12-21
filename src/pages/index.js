@@ -36,16 +36,11 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    socketService.connect();
     audioService.getAudios().then(res => {
       setAudios(res);
       setLoading(false);
       console.log(audios);
     });
-
-    return () => {
-      socketService.disconnect();
-    };
   }, []);
 
   return (

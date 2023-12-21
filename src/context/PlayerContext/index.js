@@ -56,7 +56,6 @@ export const AudioPlayerProvider = ({children}) => {
         isPlaying: true,
         playlist: [singleSong],
       });
-      console.log(singleSong);
     }
     setIsPlaying(true);
   };
@@ -156,7 +155,6 @@ export const AudioPlayerProvider = ({children}) => {
       }
     };
     socketService.on('isPlaying', handleIsPlaying);
-
     return () => {
       socketService.off('isPlaying', handleIsPlaying);
     };

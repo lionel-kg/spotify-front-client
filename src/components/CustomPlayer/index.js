@@ -102,6 +102,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
         if (audioRef.current) {
           // Mettre à jour la playlist directement au démarrage
           updatePlaylist(data.playlist);
+          handlePosition(data.currentTime);
           audioRef.current.play();
           setIsPlaying(true);
         }
@@ -180,9 +181,9 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     // const newCurrentTime = (x * duration) / 300;
 
     // Update the audio element's currentTime
-    if (audioRef.current) {
-      audioRef.current.currentTime = newCurrentTime;
-    }
+    // if (audioRef.current) {
+    //   audioRef.current.currentTime = newCurrentTime;
+    // }
 
     // Emit the current time to the server
     socketService.emit('sendCurrentTime', {
@@ -193,17 +194,19 @@ const CustomAudioPlayer = ({selectedRoom}) => {
     socketService.on('syncAudio', ({currentTime}) => {
       // Update the audio element's currentTime based on the server response
       if (audioRef.current) {
+        setCurrentTime(currentTime);
         audioRef.current.currentTime = currentTime;
+        console.log(currentTime);
       }
     });
   };
 
-  useEffect(() => {
-    console.log(sharePlaylist[indexPlaylist]);
-    console.log(indexPlaylist);
-    console.log(sharePlaylist[indexPlaylist]);
-    console.log(playlist[indexPlaylist]);
-  }, [sharePlaylist, indexPlaylist]);
+  // useEffect(() => {
+  //   // console.log(sharePlaylist[indexPlaylist]);
+  //   // console.log(indexPlaylist);
+  //   // console.log(sharePlaylist[indexPlaylist]);
+  //   // console.log(playlist[indexPlaylist]);
+  // }, [sharePlaylist, indexPlaylist]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
