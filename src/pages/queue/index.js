@@ -2,14 +2,15 @@ import React, {useEffect, useState, useCallback} from 'react';
 import PageTitle from '../../components/PageTitle';
 import {usePlayer} from '@/context/PlayerContext';
 import Track from '@/components/Search/Track';
+import styles from './index.module.scss';
 const Index = () => {
   const {playlist, indexPlaylist, setIndexPlaylist} = usePlayer();
 
   return (
-    <div>
+    <div className={styles.container_queue}>
       <PageTitle title="Queue" />
       <p>Titre en écoute :</p>
-      <p>{playlist[indexPlaylist].title}</p>
+      <p className={styles.current}>{playlist[indexPlaylist].title}</p>
 
       <p>A suivre :</p>
       <div>
