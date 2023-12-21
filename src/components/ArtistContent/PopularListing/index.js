@@ -10,7 +10,7 @@ const Index = ({audios}) => {
     if (displayedAudios.length > 5) {
       setDisplayAudios(audios?.slice(0, 5));
     } else {
-      setDisplayAudios(audios);
+      setDisplayAudios(audios?.slice(0, 10));
     }
   };
 

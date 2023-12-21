@@ -20,7 +20,6 @@ export default function Home() {
       audioService
         .getAudiosPagination(page)
         .then(newAudios => {
-          console.log('Audios', newAudios);
           setMaxNbResults(newAudios.nbResults);
           if (newAudios.audios.length > 0) {
             setAudios(prevAudios => [...prevAudios, ...newAudios.audios]);
@@ -78,7 +77,6 @@ export default function Home() {
       albumService.getAlbums(),
     ])
       .then(([{audios}, albumsResult]) => {
-        console.log('initialAudios', audios);
         setAudios(audios);
         setAlbums(albumsResult);
       })

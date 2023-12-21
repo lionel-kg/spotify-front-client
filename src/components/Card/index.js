@@ -7,6 +7,7 @@ import Link from 'next/link';
 import socketService from '@/services/socketIo.service';
 
 const Index = ({title, name, thumbnail, artist, album, audios, url, id}) => {
+  console.log('artist', artist);
   const {
     playlist,
     handlePlaylist,
