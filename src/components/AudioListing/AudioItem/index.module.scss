@@ -1,9 +1,11 @@
 @import '@/styles/helpers/variables';
 
 .audioRow {
+  position: relative;
   display: flex;
   padding: 10px 20px;
   border-bottom: 1px solid #282828;
+  cursor: pointer;
   &:hover {
     background-color: #333;
   }
@@ -40,6 +42,7 @@
 
 .menu {
   position: absolute;
+  top: 100%;
   right: 0;
   background-color: $backgroundGrey;
   border: 1px solid #ccc;

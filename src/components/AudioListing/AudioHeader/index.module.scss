@@ -1,11 +1,11 @@
-.trackListHeader {
+.audioListHeader {
   display: flex;
   justify-content: flex-start;
   padding: 10px 20px;
   font-weight: bold;
 }
 
-.trackListHeader > span {
+.audioListHeader > span {
   &:first-child {
     // Styles pour le numéro #
     margin-right: 10px;

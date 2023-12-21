@@ -6,26 +6,29 @@ import AudioListing from '../AudioListing';
 import Button from '../Button';
 import {usePlaylists} from '@/context/PlaylistContext';
 
-const PlaylistContent = ({playlistId}) => {
-  const {playlists, removePlaylist} = usePlaylists();
+const PlaylistContent = ({playlist}) => {
+  const {removePlaylist} = usePlaylists();
+  console.log('playlist', playlist);
 
-  const [playlist, setPlaylist] = useState(playlists[playlistId]);
+  const [displayTrash, setDisplayTrash] = useState(
+    playlist?.name !== 'TitresAimes',
+  );
 
   const handleremovePlaylist = () => {
-    removePlaylist(playlistId);
+    removePlaylist(playlist.id);
   };
 
-  useEffect(() => {
-    console.log(playlists[playlistId]);
-  }, [playlistId]);
   return (
     <div className={styles.albumContent}>
       <PlaylistHeader playlist={playlist} />
       <div className={styles.controlsHeader}>
         <FaPlay className={styles.iconPlay} />
-        <Button onClick={handleremovePlaylist}>
-          <FaTrash />
-        </Button>
+
+        {displayTrash ?? (
+          <Button onClick={handleremovePlaylist}>
+            <FaTrash />
+          </Button>
+        )}
       </div>
       <AudioListing album={playlist} />
     </div>

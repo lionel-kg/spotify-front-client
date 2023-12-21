@@ -15,6 +15,7 @@ const PlaylistModal = ({isOpen, onClose, onCreate}) => {
   };
 
   const handleOverlayClick = e => {
+    e.stopPropagation();
     if (e.target === e.currentTarget) {
       setPlaylistName('');
       onClose();

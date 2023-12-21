@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useRouter} from 'next/router';
-// import MainLayout from '@/layouts/MainLayout';
 import PlaylistContent from '@/components/PlaylistContent';
 import {usePlaylists} from '@/context/PlaylistContext';
 
 const Index = () => {
   const router = useRouter();
-  const {id} = router.query; // Obtenez l'identifiant de la playlist de l'URL
+  const {id} = router.query;
+  const [playlist, setPlaylist] = useState(null);
+  const {playlists} = usePlaylists();
+
+  useEffect(() => {
+    if (id) {
+      setPlaylist({
+        id,
+        name: id,
+        type: 'playlist',
+        ...playlists[id],
+      });
+    }
+  }, [id]);
 
   return (
     <>
-      {/* <PlaylistContent albumId={id} /> */}
-      <PlaylistContent playlistId={id} />
+      <PlaylistContent playlist={playlist} />
     </>
   );
 };

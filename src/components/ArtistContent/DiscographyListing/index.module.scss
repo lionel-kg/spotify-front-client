@@ -1,0 +1,31 @@
+.discography {
+  padding: 1rem;
+  color: white;
+
+  .albumList {
+    display: flex;
+    overflow-x: auto;
+
+    .albumItem {
+      margin-right: 1rem;
+      width: 180px; // Adjust based on your preference
+      display: flex;
+      flex-direction: column;
+
+      .albumCover {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .albumInfo {
+        .albumTitle {
+          // styles for the album title
+        }
+
+        .albumYear {
+          // styles for the album year
+        }
+      }
+    }
+  }
+}

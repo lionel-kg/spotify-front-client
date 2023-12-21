@@ -20,7 +20,6 @@ const Index = () => {
         }
       }
     };
-
     fetchAlbum();
   }, [id]);
 

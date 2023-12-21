@@ -13,6 +13,8 @@ export const PlaylistProvider = ({children}) => {
 
   const [albums, setAlbums] = useState({});
 
+  const [artists, setArtists] = useState({});
+
   const addPlaylist = (name, audios = [], album) => {
     setPlaylists(prevPlaylists => ({
       ...prevPlaylists,
@@ -27,6 +29,13 @@ export const PlaylistProvider = ({children}) => {
     }));
   };
 
+  const addArtist = artist => {
+    setArtists(prevArtists => ({
+      ...prevArtists,
+      [artist.id]: {artist, updated_at: updateDate()},
+    }));
+  };
+
   const removePlaylist = name => {
     setPlaylists(prevPlaylists => {
       const updatedPlaylists = {...prevPlaylists};
@@ -37,9 +46,17 @@ export const PlaylistProvider = ({children}) => {
 
   const removeAlbum = id => {
     setAlbums(prevAlbums => {
-      const updatedPlaylists = {...prevAlbums};
-      delete updatedPlaylists[id];
-      return updatedPlaylists;
+      const updatedAlbums = {...prevAlbums};
+      delete updatedAlbums[id];
+      return updatedAlbums;
+    });
+  };
+
+  const removeArtist = id => {
+    setArtists(prevArtists => {
+      const updatedArtists = {...prevArtists};
+      delete updatedArtists[id];
+      return updatedArtists;
     });
   };
 
@@ -49,6 +66,10 @@ export const PlaylistProvider = ({children}) => {
 
   const albumExists = id => {
     return Object.hasOwnProperty.call(albums, id);
+  };
+
+  const artistExists = id => {
+    return Object.hasOwnProperty.call(artists, id);
   };
 
   const addToPlaylist = (playlistName, audio) => {
@@ -61,7 +82,7 @@ export const PlaylistProvider = ({children}) => {
           existingPlaylist.audios !== undefined &&
           existingPlaylist.audios.length > 0 &&
           existingPlaylist.audios.some(
-            existingTrack => existingTrack.title === audio.title,
+            existingAudio => existingAudio.title === audio.title,
           )
         ) {
           return prevPlaylists;
@@ -88,20 +109,18 @@ export const PlaylistProvider = ({children}) => {
     });
   };
 
-  const removeFromPlaylist = (playlistName, audioTitle) => {
+  const removeFromPlaylist = (playlistName, audioId) => {
     setPlaylists({
       ...playlists,
       [playlistName]: {
         ...playlists[playlistName],
         audios: playlists[playlistName]?.audios?.filter(
-          audio => audio.title !== audioTitle,
+          audio => audio.id !== audioId,
         ),
         updated_at: updateDate(),
       },
     });
   };
-
-  // Ajoutez d'autres méthodes de gestion de playlists ici si nécessaire
 
   return (
     <PlaylistContext.Provider
@@ -116,6 +135,10 @@ export const PlaylistProvider = ({children}) => {
         addAlbum,
         removeAlbum,
         albumExists,
+        artists,
+        addArtist,
+        removeArtist,
+        artistExists,
       }}>
       {children}
     </PlaylistContext.Provider>

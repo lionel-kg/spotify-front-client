@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 
 const Index = ({title, duration}) => {
   return (
-    <div className={styles.trackListHeader}>
+    <div className={styles.audioListHeader}>
       <span>#</span>
       <span>Titre</span>
       <span>Durée</span>

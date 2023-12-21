@@ -6,15 +6,15 @@
   padding: 5px;
 
   &::-webkit-scrollbar {
-    width: 12px; /* width of the entire scrollbar */
+    width: 12px;
   }
 
-  &::-webkit-scrollbar-track {
-    background: $backgroundGrey; /* color of the tracking area */
+  &::-webkit-scrollbar-audio {
+    background: $backgroundGrey;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $backgroundScrollbar; /* color of the scroll thumb */
-    border: 3px solid $backgroundGrey; /* creates padding around scroll thumb */
+    background-color: $backgroundScrollbar;
+    border: 3px solid $backgroundGrey;
   }
 }

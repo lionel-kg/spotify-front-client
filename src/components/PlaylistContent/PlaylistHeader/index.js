@@ -7,16 +7,15 @@ const Index = ({playlist}) => {
     <div className={styles.playlistHeader}>
       <img
         src={playlist?.imageUrl}
-        alt={playlist?.title}
+        alt={playlist?.name}
         className={styles.playlistImage}
       />
       <div className={styles.playlistDetails}>
         <Title type="h2" className={styles.playlistTitle}>
-          {playlist?.title}
+          {playlist?.name}
         </Title>
-        <p className={styles.playlistArtist}>{playlist?.artist}</p>
         <p className={styles.playlistStats}>
-          {playlist?.tracks?.length} titres
+          {playlist?.audios?.length} titres
         </p>
       </div>
     </div>

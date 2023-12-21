@@ -1,0 +1,41 @@
+.popularAudios {
+  padding: 1rem;
+  color: white;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .audioItem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+
+      .audioNumber {
+        // styles for the audio number
+      }
+
+      .audioName {
+        // styles for the audio name
+      }
+
+      .audioStreams {
+        // styles for the streams count
+      }
+
+      .audioDuration {
+        // styles for the duration
+      }
+    }
+  }
+
+  .showMore {
+    // Button styles
+  }
+}

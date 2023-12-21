@@ -30,7 +30,7 @@ const Index = ({audio, index, album}) => {
     console.log(audio);
     setIsLiked(
       playlists.TitresAimes?.audios?.some(
-        likedTrack => likedTrack.title === audio.title,
+        likedAudio => likedAudio.id === audio.id,
       ),
     );
   }, [playlists.TitresAimes, audio.title]);
@@ -47,6 +47,12 @@ const Index = ({audio, index, album}) => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
   }, [showMenu]);
 
+  const formatDuration = seconds => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.round(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const handlePlay = e => {
     if (isSongPlaying(audio.id)) {
       if (isPlaying) {
@@ -59,16 +65,20 @@ const Index = ({audio, index, album}) => {
     }
   };
 
-  const handleLike = () => {
+  const handleLike = e => {
+    e.stopPropagation();
     if (isLiked) {
-      removeFromPlaylist('TitresAimes', audio.title);
+      removeFromPlaylist('TitresAimes', audio.id);
     } else {
       addToPlaylist('TitresAimes', audio);
     }
     setIsLiked(!isLiked);
   };
 
-  const handleMenuClick = () => setShowMenu(!showMenu);
+  const handleMenuClick = e => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
+  };
 
   const handleAddToPlaylist = playlistName => {
     if (
@@ -104,7 +114,7 @@ const Index = ({audio, index, album}) => {
         }`}>
         {audio.title}
       </span>
-      <span className={styles.audioCell}>{audio.duration}</span>
+      <span className={styles.audioCell}>{formatDuration(audio.duration)}</span>
       <span className={styles.audioCell}>
         {isHovering && (
           <>
@@ -118,12 +128,18 @@ const Index = ({audio, index, album}) => {
             )}
             <FaEllipsisV
               className={styles.menuIcon}
-              onClick={handleMenuClick}
+              onClick={e => {
+                e.stopPropagation();
+                handleMenuClick(e);
+              }}
             />
           </>
         )}
         {showMenu && (
-          <div className={styles.menu} ref={menuRef}>
+          <div
+            className={styles.menu}
+            ref={menuRef}
+            onClick={e => e.stopPropagation()}>
             {Object.keys(playlists).map(playlistName => (
               <div
                 key={playlistName}
