@@ -140,9 +140,13 @@ export const AudioPlayerProvider = ({children}) => {
     });
   };
 
-  // useEffect(() => {
-  //   socketService.connect();
-  // }, []);
+  useEffect(() => {
+    socketService.connect();
+
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
   // Vous pouvez éventuellement écouter l'événement isPlaying une seule fois lors de la mise en place du composant
   useEffect(() => {
     const handleIsPlaying = ({isPlaying}) => {

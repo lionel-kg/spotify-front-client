@@ -39,7 +39,6 @@ const CustomAudioPlayer = ({selectedRoom}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   // useEffect(() => {
-  //   socketService.connect();
 
   //   // Écouter l'événement émis par le serveur pour obtenir l'état initial du lecteur audio
   //   socketService.on('playbackState', ({ currentTime, isPlaying, playlist }) => {
@@ -67,6 +66,13 @@ const CustomAudioPlayer = ({selectedRoom}) => {
   //     socketService.off('playbackState');
   //   };
   // }, []);
+  useEffect(() => {
+    socketService.connect();
+
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const updateTimer = setInterval(() => {
@@ -277,7 +283,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
               }
             />
             <div className={styles.options}>
-            <button
+              <button
                 className={`${isShuffleActive ? styles.shuffle : ''}`}
                 onClick={() => {
                   randomize(playlist);

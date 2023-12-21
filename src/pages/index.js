@@ -42,6 +42,10 @@ export default function Home() {
       setLoading(false);
       console.log(audios);
     });
+
+    return () => {
+      socketService.disconnect();
+    };
   }, []);
 
   return (
