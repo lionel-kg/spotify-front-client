@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {formatTime} from '@/helpers/tool.helper';
 import shuffle from 'just-shuffle';
 import styles from './index.module.scss';
+import Link from 'next/link';
 import {
   FaBackward,
   FaForward,
@@ -347,6 +348,9 @@ const CustomAudioPlayer = ({selectedRoom}) => {
               </p>
             </div>
           </div>
+          <Link href="/queue">
+            <p>QUEUE</p>
+          </Link>
           <div className={styles.volume_container}>
             <button onClick={handleMute} className={styles.muteButton}>
               {isMuted ? (

@@ -67,14 +67,12 @@ export const AudioPlayerProvider = ({children}) => {
       playedAt: new Date().toISOString(),
     };
     setHistory(prevHistory => {
-      // Check if the song is already in history
       const existingIndex = prevHistory?.findIndex(
         item => item.id === singleSong.id,
       );
       if (existingIndex !== -1) {
-        // Song is already in history, increment the listen count (if you're tracking listens)
         const updatedHistory = [...prevHistory];
-        updatedHistory[existingIndex].listens += 1; // Increment listens count
+        updatedHistory[existingIndex].listens += 1;
         updatedHistory[existingIndex].playedAt = new Date().toISOString();
         return updatedHistory;
       } else {

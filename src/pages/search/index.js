@@ -1,4 +1,12 @@
-import React, { useState, useEffect, useRef, useDeferredValue, Suspense, lazy } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useDeferredValue,
+  Suspense,
+  lazy,
+  useCallback,
+} from 'react';
 import styles from './index.module.scss';
 import Skeleton from 'react-loading-skeleton';
 
@@ -8,13 +16,13 @@ import artistService from '@/services/artist.service';
 import audioService from '@/services/audio.service';
 
 //Components
-import PageTitle from "@/components/PageTitle";
-import Section from "@/components/Section";
-import SearchBar from "@/components/Search/SearchBar";
-import TrackList from '@/components/Search/TrackList';
-import BestResult from '@/components/Search/BestResult';
+import PageTitle from '@/components/PageTitle';
+import Section from '@/components/Section';
+import SearchBar from '@/components/Search/SearchBar';
 
 const CardComponent = lazy(() => import('@/components/Search/Card'));
+const TrackList = lazy(() => import('@/components/Search/TrackList'));
+const BestResult = lazy(() => import('@/components/Search/BestResult'));
 
 const Index = () => {
   const inputRef = useRef(null);
@@ -28,13 +36,13 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const callRef = useRef(null);
 
-  const handleChange = e => {
+  const handleChange = useCallback(e => {
     setInput(e.target.value);
-  };
+  }, []);
 
-  const clearInput = e => {
+  const clearInput = useCallback(e => {
     setInput('');
-  }
+  }, []);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -76,26 +84,34 @@ const Index = () => {
 
   return (
     <div className={styles.search_container}>
-      <SearchBar onSearch={handleChange} onDelete={clearInput} inputRef={inputRef} value={input} />
+      <SearchBar
+        onSearch={handleChange}
+        onDelete={clearInput}
+        inputRef={inputRef}
+        value={input}
+      />
       {input ? (
         <div className={styles.search_results}>
-          {artistData.length <= 0 && audioData.length <= 0 && albumData.length <= 0 && !isLoading && (
-            <div className={styles.no_result}>
-              <p>Aucun résultat pour "{input}"</p>
-              <p>Veuillez vérifier l'orthographe ou utiliser moins de mots-clés ou d'autres mots-clés.</p>
-            </div>
-          )}
-          <div className={styles.best_results}>
-            {artistData.length > 0 && (
-              <BestResult artist={bestArtist} />
+          {artistData.length <= 0 &&
+            audioData.length <= 0 &&
+            albumData.length <= 0 &&
+            !isLoading && (
+              <div className={styles.no_result}>
+                <p>Aucun résultat pour "{input}"</p>
+                <p>
+                  Veuillez vérifier l'orthographe ou utiliser moins de mots-clés
+                  ou d'autres mots-clés.
+                </p>
+              </div>
             )}
+          <div className={styles.best_results}>
+            {artistData.length > 0 && <BestResult artist={bestArtist} />}
             {audioData.length > 0 && (
               <TrackList tracks={audioData.slice(0, 4)} />
             )}
           </div>
 
           <div className={styles.slider_results}>
-
             {artistData.length > 0 && (
               <Section title="Artistes" cards={artistData} />
             )}
