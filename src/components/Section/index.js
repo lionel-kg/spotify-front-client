@@ -4,13 +4,10 @@ import PageTitle from '../PageTitle/index';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-const wait = (delay, value) =>
-  new Promise(resolve => setTimeout(resolve, delay, value));
+// const wait = (delay, value) =>
+//   new Promise(resolve => setTimeout(resolve, delay, value));
 
-const Card = lazy(() =>
-  wait(1000) // Wait for 1000 milliseconds
-    .then(() => import('../Card/index')),
-);
+const Card = lazy(() => import('../Card/index'));
 
 const Index = ({title, cards, CardComponent}) => {
   const [showAll, setShowAll] = useState(false);
