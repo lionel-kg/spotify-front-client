@@ -254,7 +254,7 @@ const CustomAudioPlayer = ({selectedRoom}) => {
               <p className={styles.song__title}>
                 {sharePlaylist.length > 0
                   ? sharePlaylist[indexPlaylist]?.title
-                  : playlist[indexPlaylist].title}
+                  : playlist[indexPlaylist]?.title}
               </p>
               <p className={styles.song__artist}>
                 {playlist[indexPlaylist]?.artist}

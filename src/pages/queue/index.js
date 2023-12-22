@@ -10,7 +10,7 @@ const Index = () => {
     <div className={styles.container_queue}>
       <PageTitle title="Queue" />
       <p>Titre en écoute :</p>
-      <p className={styles.current}>{playlist[indexPlaylist].title}</p>
+      <p className={styles.current}>{playlist[indexPlaylist]?.title}</p>
 
       <p>A suivre :</p>
       <div>
